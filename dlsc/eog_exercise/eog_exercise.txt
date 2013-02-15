@@ -1,0 +1,157 @@
+URL: http://projects.gnome.org/eog/
+Lista de correo: http://mail.gnome.org/archives/eog-list/
+Repositorio GIT: git://git.gnome.org/eog
+Repositorio SVN: http://svn.gnome.org/svn/eog/
+
+Obtención del código del repositorio:
+ git clone git://git.gnome.org/eog
+
+Creación de base de datos MySQL para Guilty:
+ mysqladmin -u root -p create eog_guilty
+
+Generación de base de datos Guilty:
+ guilty --output=db --db-driver=mysql --db-user=root --db-password=root --db-database=eog_guilty eog/
+
+Creación de base de datos MySQL para CVSAnaly:
+ mysqladmin -u root -p create eog_cvsa
+
+Generación de base de datos CVSAnaly
+ cvsanaly2 --db-user=root --db-password=root --db-database=eog_cvsa cvsanaly2 --db-user=root --db-password=root --db-database=eog_cvsa http://svn.gnome.org/svn/eog/
+
+Creación de base de datos MySQL para MLStats:
+ mysqladmin -u root -p create eog_mls
+
+Generación de base de datos MLStats
+ mlstats --db-admin-user="root" --db-admin-password="root" --db-user="root" --db-password="root" --db-name="eog_mls" http://mail.gnome.org/archives/eog-list/
+
+Consultas
+
+Top 20 committers:
+SELECT people.name, people.email, MIN(date) AS start_date, MAX(date) AS end_date, COUNT(*) AS commit_count
+FROM people LEFT JOIN scmlog ON ( people.id = scmlog.committer_id )
+GROUP BY scmlog.committer_id
+ORDER BY commit_count DESC
+LIMIT 20;
+
++-------------+-------+---------------------+---------------------+--------------+
+| name        | email | start_date          | end_date            | commit_count |
++-------------+-------+---------------------+---------------------+--------------+
+| jens        | NULL  | 2001-02-15 16:45:50 | 2005-05-29 18:41:56 |          581 | 
+| lucasr      | NULL  | 2005-08-23 22:14:57 | 2009-01-20 00:51:16 |          479 | 
+| friemann    | NULL  | 2006-09-13 15:08:28 | 2009-04-13 21:38:55 |          460 | 
+| csaavedra   | NULL  | 2007-03-05 18:49:51 | 2009-03-16 21:19:35 |          202 | 
+| (no author) | NULL  | 1999-09-15 07:19:29 | 2006-12-18 21:07:23 |          162 | 
+| kmaraas     | NULL  | 1999-09-23 00:17:41 | 2009-02-06 15:42:47 |          122 | 
+| federico    | NULL  | 2000-02-28 04:00:53 | 2003-05-05 18:18:27 |          100 | 
+| csaavedr    | NULL  | 2005-11-07 21:49:38 | 2007-03-04 16:14:39 |           94 | 
+| martin      | NULL  | 2000-10-08 22:50:23 | 2001-03-18 18:13:19 |           90 | 
+| plaes       | NULL  | 2004-02-27 13:02:56 | 2009-02-18 16:44:54 |           69 | 
+| laurenti    | NULL  | 2002-11-02 00:53:17 | 2008-09-23 17:04:14 |           64 | 
+| unammx      | NULL  | 1999-09-15 07:19:29 | 2000-01-17 03:41:35 |           62 | 
+| lutz        | NULL  | 2001-03-31 17:08:10 | 2003-05-24 21:20:46 |           61 | 
+| menthos     | NULL  | 2000-09-02 15:50:46 | 2006-06-11 22:32:01 |           58 | 
+| dnylande    | NULL  | 2006-03-08 11:15:16 | 2009-03-02 18:32:05 |           54 | 
+| jorgegonz   | NULL  | 2007-04-23 17:44:29 | 2009-04-12 16:05:28 |           50 | 
+| adrighem    | NULL  | 2001-11-11 14:18:13 | 2008-04-30 20:25:20 |           50 | 
+| baddog      | NULL  | 2001-08-12 14:08:32 | 2007-02-27 18:43:53 |           48 | 
+| serrador    | NULL  | 2003-12-12 11:20:36 | 2006-12-22 13:41:46 |           47 | 
+| mitr        | NULL  | 2003-02-26 02:15:18 | 2006-03-12 03:30:41 |           47 | 
++-------------+-------+---------------------+---------------------+--------------+
+
+Total commits:
+SELECT COUNT(*) AS total_commits
+FROM scmlog;
+
++---------------+
+| total_commits |
++---------------+
+|          5106 | 
++---------------+
+
+Top 20 posters:
+SELECT people.name, people.email_address, MIN(arrival_date) AS start_date, MAX(arrival_date) AS end_date, COUNT(*) AS email_count
+FROM people LEFT JOIN messages ON ( people.email_address = messages.author_email_address )
+GROUP BY messages.author_email_address
+ORDER BY email_count DESC
+LIMIT 20;
+
++--------------------------------+-----------------------------+---------------------+---------------------+-------------+
+| name                           | email_address               | start_date          | end_date            | email_count |
++--------------------------------+-----------------------------+---------------------+---------------------+-------------+
+| Jens Finke                     | jens@triq.net               | 2001-06-14 14:58:20 | 2005-11-13 03:59:01 |          67 | 
+| Felix Riemann                  | friemann@svn.gnome.org      | 2007-02-15 06:19:06 | 2009-06-17 21:00:38 |          42 | 
+|                                |                             | NULL                | NULL                |          41 | 
+| Claudio Saavedra               | csaavedra@alumnos.utalca.cl | 2006-09-29 16:29:30 | 2008-01-14 19:23:52 |          41 | 
+|                                | lucasr@gnome.org            | 2007-03-11 15:10:15 | 2009-10-28 21:57:09 |          34 | 
+| Lucas Rocha                    | lucasr.at.mundo@gmail.com   | 2005-11-20 20:50:04 | 2008-06-01 13:33:43 |          31 | 
+| Felix Riemann                  | friemann@gnome.org          | 2009-06-30 20:17:54 | 2010-01-05 12:57:02 |          29 | 
+| Federico Mena Quintero         | federico@ximian.com         | 2001-03-08 15:08:10 | 2007-10-30 16:17:59 |          28 | 
+| Claudio Saavedra               | csaavedra@gnome.org         | 2008-04-07 20:24:59 | 2009-11-04 19:33:54 |          24 | 
+| Lutz M                         | urc8@rz.uni-karlsruhe.de    | 2001-03-17 13:40:05 | 2001-11-10 06:20:04 |          23 | 
+| Jens Finke                     | jens@eknif.de               | 2001-03-06 12:22:09 | 2001-05-31 03:17:54 |          11 | 
+| Jef Driesen                    | jefdriesen@hotmail.com      | 2006-08-02 10:55:56 | 2007-08-01 03:36:08 |           8 | 
+| Lutz =?ISO-8859-1?Q?M=FCller?= | lutz@users.sourceforge.net  | 2002-01-01 12:28:22 | 2006-08-06 03:08:48 |           8 | 
+| Emmanuel Touzery               | emmanuel.touzery@free.fr    | 2009-05-24 18:49:16 | 2009-12-18 07:08:42 |           8 | 
+| Darin Adler                    | darin@bentspoon.com         | 2001-06-14 16:01:11 | 2002-02-04 16:07:33 |           7 | 
+| DigiSus                        | info@digisus.info           | 2008-07-05 22:53:55 | 2008-08-24 22:15:49 |           7 | 
+| jaap haitsma                   | jaap@haitsma.org            | 2006-11-25 05:42:37 | 2007-08-03 20:00:57 |           7 | 
+| Rodrigo Aguilar M.             | raguilar@iie.ufro.cl        | 2006-11-24 12:16:30 | 2006-12-20 10:33:26 |           7 | 
+| Martin Baulig                  | martin@home-of-linux.org    | 2001-03-17 15:49:05 | 2001-04-11 11:06:13 |           6 | 
+| Brett Humphreys                | bhumphre@cs.ohiou.edu       | 2003-09-21 21:42:47 | 2003-09-24 23:09:46 |           5 | 
++--------------------------------+-----------------------------+---------------------+---------------------+-------------+
+
+Total posts:
+SELECT COUNT(*) AS total_emails
+FROM messages;
+
++--------------+
+| total_emails |
++--------------+
+|          623 | 
++--------------+
+
+Top 20 coders:
+SELECT authors.name, MIN(date) AS start_date, MAX(date) as end_date, COUNT(*) AS loc_count
+FROM authors LEFT JOIN blame ON ( authors.id = blame.author_id )
+GROUP BY blame.author_id
+ORDER BY loc_count DESC
+LIMIT 20;
+
++---------------------------+---------------------+---------------------+-----------+
+| name                      | start_date          | end_date            | loc_count |
++---------------------------+---------------------+---------------------+-----------+
+| Lucas Almeida Rocha       | 2005-10-13 03:23:49 | 2008-10-24 23:21:56 |     21376 | 
+| Lucas Rocha               | 2005-08-23 20:14:57 | 2009-08-10 23:18:12 |     18474 | 
+| Felix Riemann             | 2006-09-13 13:08:28 | 2009-12-30 18:55:02 |     18049 | 
+| Jens Finke                | 2001-02-15 15:57:45 | 2005-05-29 16:41:56 |     16620 | 
+| Claudio Saavedra          | 2005-11-07 20:49:38 | 2009-07-23 09:35:24 |      7431 | 
+| Runa Bhattacharjee        | 2005-10-01 09:35:07 | 2009-09-16 09:51:40 |      5086 | 
+| Luca Ferretti             | 2006-03-07 08:37:38 | 2009-10-12 07:13:57 |      4721 | 
+| Changwoo Ryu              | 2002-04-12 06:06:55 | 2009-08-29 22:55:02 |      3302 | 
+| Daniel Nylander           | 2006-03-08 10:15:16 | 2009-10-09 17:13:36 |      3120 | 
+| Theppitak Karoonboonyanan | 2005-02-21 17:39:27 | 2009-08-23 05:33:34 |      2844 | 
+| Maxim Dziumanenko         | 2004-03-11 18:51:47 | 2008-11-13 08:03:56 |      2822 | 
+| Federico Mena Quintero    | 1999-09-16 21:07:34 | 2003-05-05 16:18:27 |      2652 | 
+| Kostas Papadimas          | 2002-12-03 17:02:21 | 2009-09-10 15:31:49 |      2604 | 
+| Christian Rose            | 2000-09-02 14:12:52 | 2005-09-26 18:46:38 |      2480 | 
+| Carles Ferrando           | 2009-08-09 09:41:30 | 2009-08-09 09:41:30 |      2474 | 
+| Nurali Abdurahmonov       | 2009-01-08 02:18:37 | 2009-01-08 02:18:37 |      2435 | 
+| Rajesh Ranjan             | 2005-05-05 11:32:46 | 2009-09-16 10:51:46 |      2420 | 
+| Amanpreet Singh Alam      | 2004-07-12 10:52:19 | 2009-03-09 16:45:32 |      2405 | 
+| Kenneth Nielsen           | 2007-05-24 22:04:49 | 2009-03-15 00:31:44 |      2205 | 
+| Philip Withnall           | 2008-03-03 07:22:48 | 2010-01-01 14:02:35 |      2173 | 
++---------------------------+---------------------+---------------------+-----------+
+
+Total lines of code:
+SELECT COUNT(*) AS total_loc
+FROM blame;
+
++-----------+
+| total_loc |
++-----------+
+|    249988 | 
++-----------+
+
+Longest lifespan at repository:
+
+Longest lifespan at mailing list: 

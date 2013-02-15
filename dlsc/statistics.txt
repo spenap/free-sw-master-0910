@@ -1,0 +1,2 @@
+Box and whisker: I expect to see ocasional committers as outliers.
+boxplot -> it may be interesting to analyse the data with log10

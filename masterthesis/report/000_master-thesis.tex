@@ -1,0 +1,56 @@
+\documentclass[11pt, a4paper, twoside, titlepage]{report}
+\usepackage[english]{babel}
+
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{verbatim} 
+\usepackage{graphicx}
+\newcommand{\paginaenblanco}{\mbox{}\thispagestyle{empty}\newpage}
+
+%Empieza el documento
+\begin{document}
+
+\input{010_cover.tex}
+
+% Para eliminar la cabecera de las páginas vacías al final de los
+% capítulos
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+  \hbox{}
+    \thispagestyle{empty}
+      \newpage
+        \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+%%
+
+% Generamos titulo e indice de contenidos
+%\maketitle
+\tableofcontents
+\newpage
+\mbox{}\vfill
+This work is licensed under the Creative Commons Attribution-Share Alike 3.0 Spain License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-sa/3.0/es/} or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+\newpage
+
+\chapter{Introduction}
+
+\input{050_introduction.tex}
+
+\chapter{Subjects taken}
+
+\input{100_subjects.tex}
+
+\chapter{Practicum work}
+
+\input{200_practicum.tex}
+
+\chapter{Conclusions}
+
+\input{300_conclusions.tex}
+
+% Apéndices
+
+\paginaenblanco
+\bibliographystyle{plain}
+\bibliography{master-thesis.bib}
+\end{document}

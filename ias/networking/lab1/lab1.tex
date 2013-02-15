@@ -1,0 +1,191 @@
+% Definimos el estilo del documento
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+
+% Acentos y eñes
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\usepackage{hyperref}
+
+% Definimos titulo, autor, fecha.
+\title{Laboratorio I}
+\author{Simón Pena Placer}
+\date{\today}
+
+%Empieza el documento
+\begin{document}
+
+% Generamos titulo e indice de contenidos
+\maketitle
+% \tableofcontents
+
+% Empezamos capitulos
+\section{Ejercicio 1}
+
+\textbf{Identifica y lista que interfaces de red están disponibles en tu estación de trabajo. ¿Qué
+significa ``eth''?}
+
+Están disponibles la interfaz de loopback ``lo'', y las interfaces ethernet ``eth0'' y ``eth2''. ``Eth'' es un prefijo que 
+identifica a las interfaces tipo ethernet.
+
+{\footnotesize
+\begin{verbatim}
+spenap@mannin:~$ ifconfig
+eth0      Link encap:Ethernet  direcciónHW 00:22:41:20:6e:bd  
+          ACTIVO DIFUSIÓN MULTICAST  MTU:1500  Métrica:1
+          Paquetes RX:0 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:0 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:1000 
+          Bytes RX:0 (0.0 B)  TX bytes:0 (0.0 B)
+          Interrupción:17 
+
+eth2      Link encap:Ethernet  direcciónHW 00:21:e9:da:3a:b9  
+          Direc. inet:192.168.1.111  Difus.:192.168.1.255  Másc:255.255.255.0
+          Dirección inet6: fe80::221:e9ff:feda:3ab9/64 Alcance:Enlace
+          ACTIVO DIFUSIÓN FUNCIONANDO MULTICAST  MTU:1500  Métrica:1
+          Paquetes RX:54473 errores:0 perdidos:0 overruns:0 frame:60982
+          Paquetes TX:38432 errores:6 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:1000 
+          Bytes RX:69950118 (69.9 MB)  TX bytes:4738781 (4.7 MB)
+          Interrupción:16 
+
+lo        Link encap:Bucle local  
+          Direc. inet:127.0.0.1  Másc:255.0.0.0
+          Dirección inet6: ::1/128 Alcance:Anfitrión
+          ACTIVO LOOPBACK FUNCIONANDO  MTU:16436  Métrica:1
+          Paquetes RX:106 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:106 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:0 
+          Bytes RX:19121 (19.1 KB)  TX bytes:19121 (19.1 KB)
+\end{verbatim}
+}
+
+\section{Ejercicio 2}
+
+\textbf{¿Qué significa MTU ? ¿Qué MTU tiene el interfaz ``lo''? ¿Puedo cambiar el MTU de una interfaz? 
+En caso afirmativo, ¿qué comando emplearía? ¿Puedo establecer la MTU que desee para una interfaz dada?}
+
+MTU significa unidad máxima de transferencia. Es la cantidad máxima de información que se transmite como unidad a nivel de red. Dado que los paquetes tienen
+cabeceras de control, un MTU grande implica que el ratio información / cabeceras es más alto, de modo que la comunicación es más eficiente. Sin embargo, la
+penalización asociada es que aumenta la latencia en enlaces lentos.
+
+{\footnotesize
+\begin{verbatim}
+spenap@mannin:~$ ifconfig lo
+lo        Link encap:Bucle local  
+          Direc. inet:127.0.0.1  Másc:255.0.0.0
+          Dirección inet6: ::1/128 Alcance:Anfitrión
+          ACTIVO LOOPBACK FUNCIONANDO  MTU:16436  Métrica:1
+          Paquetes RX:106 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:106 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:0 
+          Bytes RX:19121 (19.1 KB)  TX bytes:19121 (19.1 KB)
+\end{verbatim}
+}
+
+La interfaz de loopback tiene un MTU de 16436 bytes. Es posible modificar el MTU de una interfaz, pero este valor dependerá del tipo de tecnología de red subyacente. 
+
+\begin{verbatim}
+spenap@mannin:~$ ifconfig interface mtu value
+\end{verbatim}
+
+No es posible establecer un valor cualquiera, y el tipo de interfaz determina el valor máximo que aceptará.
+
+\section{Ejercicio 3}
+
+\textbf{¿Con qué comando puedo acceder a la ARP cache? ¿Puedo eliminar entradas de la ARP cache? En caso afirmativo, 
+¿cómo puedo eliminar una entrada concreta?}
+
+El comando arp permite acceder a la ARP cache.
+{\footnotesize
+\begin{verbatim}
+spenap@mannin:~$ arp
+Dirección                TipoHW  DirecciónHW         Indic Máscara         Interfaz
+Breizh                   ether   00:23:69:5c:4c:18   C                     eth2
+
+spenap@mannin:~$ ping sealtainn
+PING sealtainn (192.168.1.130) 56(84) bytes of data.
+^C
+--- sealtainn ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 1000ms
+
+spenap@mannin:~$ ping cymru
+PING cymru (192.168.1.141) 56(84) bytes of data.
+64 bytes from Cymru (192.168.1.141): icmp_seq=1 ttl=128 time=78.7 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=2 ttl=128 time=2.37 ms
+^C
+--- cymru ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 2.378/40.561/78.744/38.183 ms
+spenap@mannin:~$ arp
+Dirección                TipoHW  DirecciónHW         Indic Máscara         Interfaz
+Breizh                   ether   00:23:69:5c:4c:18   C                     eth2
+Cymru                    ether   00:1c:bf:37:11:92   C                     eth2
+Sealtainn                        (incompleto)                              eth2
+spenap@mannin:~$
+\end{verbatim}
+}
+Para eliminar entradas, se debe invocar arp -d ip o arp -d hostname:
+
+{\footnotesize
+\begin{verbatim}
+spenap@mannin:~$ arp -d 192.168.1.141
+SIOCDARP(dontpub): Operación no permitida
+spenap@mannin:~$ sudo arp -d 192.168.1.141
+[sudo] password for spenap: 
+spenap@mannin:~$ arp
+Dirección                TipoHW  DirecciónHW         Indic Máscara         Interfaz
+Breizh                   ether   00:23:69:5c:4c:18   C                     eth2
+Cymru                            (incompleto)                              eth2
+Sealtainn                        (incompleto)                              eth2
+spenap@mannin:~$ 
+\end{verbatim}
+}
+\section{Ejercicio 4}
+
+\textbf{¿Qué gateway está utilizando tu estación de trabajo? Lista la tabla de encaminamiento y explica 
+los campos que se muestran.}
+
+El gateway es 192.168.1.1. 
+
+{\footnotesize
+\begin{verbatim}
+spenap@mannin:~$ netstat -rn
+Tabla de rutas IP del núcleo
+Destino         Pasarela        Genmask         Indic   MSS Ventana irtt Interfaz
+192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth2
+169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth2
+0.0.0.0         192.168.1.1     0.0.0.0         UG        0 0          0 eth2
+\end{verbatim}
+}
+La columna destino indica diferentes salidas desde nuestra estación de trabajo ( a nuestra red en la primera entrada, a la red privada a la que caeríamos si no funcionase la configuración DHCP en la segunda entrada, y a cualquier otra dirección - típicamente internet - en la última).
+
+La columna pasarela indica el gateway o siguiente salto requerido para tomar esa ruta o destino. Los dos primeros aparecen con 0.0.0.0, puesto que estamos directamente conectados. El tercero es nuestro router, que nos dirigirá a internet. 
+
+La columna Genmask es la máscara de red, para mensajes de broadcast, por ejemplo.
+
+La columna Indic se refiere a flags: U indica que la ruta está activa, y G que se accede a través de un gateway
+
+La columna MSS indica el máximo tamaño de segmento por defecto para esas rutas. 
+
+La columna Ventana indica el tamaño de ventana por defecto para conexiones TCP.
+
+IRTT es el round trip time inicial. Esto indica el tiempo requerido para enviar una señal en ambas direcciones de un canal de comunicación. Indica
+el tiempo mínimo necesario para recibir la confirmación de un mensaje.
+
+El campo Interfaz indica a través de qué interfaz se considera la ruta. En un equipo donde más interfaces estén conectadas, se verán ahí.
+
+{\footnotesize
+\begin{verbatim}
+# netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+192.168.1.0     0.0.0.0         255.255.255.0   U        40 0          0 br0
+83.165.0.0      0.0.0.0         255.255.248.0   U        40 0          0 vlan1
+127.0.0.0       0.0.0.0         255.0.0.0       U        40 0          0 lo
+0.0.0.0         83.165.0.1      0.0.0.0         UG       40 0          0 vlan1
+\end{verbatim}
+}
+Tabla de rutas de mi router: la interface bridge (br0) aparece listada en la entrada de la red local. La interfaz vlan1, conectada al cablemodem de R, aparece en las entradas de subred donde estamos: 83.165.0.0, y para acceder a cualquier otra dirección, a través del gateway de R.
+
+\end{document}

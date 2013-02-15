@@ -1,0 +1,8 @@
+- core committers: 80% de los commits (suele cumplirse la regla de pareto)
+- Regeneración de core committers.
+- Edad del código, usando blame
+- Líneas huérfanas
+- Además de usar guilty, comprobar los tipos de acciones: ojo!
+- commits por author / commiter
+- Tipo de fichero, mediante una extensión en cvsanaly
+	--extensions=FileTypes en cvsanaly

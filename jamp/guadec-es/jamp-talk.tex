@@ -1,0 +1,652 @@
+\documentclass{beamer}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+
+\usepackage{color}
+\usepackage{multimedia}
+\usepackage{eurosym}
+
+\usetheme{Dresden}
+
+\beamertemplateballitem
+
+\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+
+\pgfdeclareimage[width=35px]{cc-license}{images/cc-by-sa.png}
+\pgfdeclareimage[width=35px]{igalia-logo}{images/igalia-logo.pdf}
+\pgfdeclareimage[width=35px]{libresoft-logo}{images/libresoft-logo.jpg}
+\pgfdeclareimage[width=250px]{jamp-architecture}{images/jamp-architecture.pdf}
+\pgfdeclareimage[width=150px]{jamendo-logo}{images/jamendo-logo.pdf}
+\pgfdeclareimage[width=90px]{jamp-screenshot}{images/jmp-gnome-search.png}
+\pgfdeclareimage[width=90px]{jamp-maemo-screenshot}{images/jmp-maemo-search-results.png}
+\pgfdeclareimage[width=150px]{jamp-maemo-home}{images/jmp-maemo-home-screen.png}
+\pgfdeclareimage[width=150px]{jamp-maemo-search}{images/jmp-maemo-search-screen.png}
+\pgfdeclareimage[width=125px]{maemo-logo}{images/maemo_org_logo.png}
+\pgfdeclareimage[width=125px]{nokia-n900}{images/N900.png}
+\pgfdeclareimage[width=220px]{people}{images/mswl-people.jpg}
+
+\setbeamertemplate{sidebar left}{%
+\vfill%
+\rlap{\hskip0.1cm%
+{\pgfuseimage{cc-license}}
+\hskip0.1cm
+{\pgfuseimage{libresoft-logo}}
+\hskip0.1cm
+{\pgfuseimage{igalia-logo}}
+}
+\vskip2pt%
+\llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+\vskip2pt%
+}
+
+\title{JaMp - Un cliente para Jamendo}
+
+\author[Simón Pena]{Simón Pena y Alumnos del Máster en Software Libre}
+\institute[Máster en Software Libre.
+Edición de A Coruña. Igalia -- URJC]
+{Máster en Software Libre, 2009-2010. Edición de A Coruña\\
+Igalia - Universidad Rey Juan Carlos}
+\date{GUADEC-ES -- 23 de julio de 2010}
+
+\begin{document}
+
+% Portada
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Restablecemos la plantilla para eliminar los logos de la portada en adelante
+\setbeamertemplate{sidebar left}{}
+
+\begin{frame}{Licencia}
+Esta obra está bajo una licencia Attribution-ShareAlike 3.0 Spain de Creative
+Commons. Para ver una copia de esta licencia, visite
+\url{http://creativecommons.org/licenses/by-sa/3.0/es/}
+o envie una carta a Creative Commons, 171 Second Street, Suite 300, San Francisco, California 94105, USA.
+\end{frame}
+
+% Índice
+\begin{frame}{Contenido}
+\tableofcontents
+\end{frame}
+
+\AtBeginSubsection[]
+{
+\begin{frame}<beamer>{Contenido}
+\tableofcontents[current,currentsubsection]
+\end{frame}
+}
+
+\section{Introducción}
+
+\subsection{¿Qué es?}
+
+\begin{frame}{¿Qué es JaMp?}
+\begin{block}{JaMp}
+\begin{itemize}
+  \item Ejercicio práctico en el módulo de desarrollo del Máster Software Libre
+  \item Cliente para Jamendo para la plataforma GNOME
+  \item Git como sistema de control de versiones
+  \item Envío e integración de parches
+  % listas de correo para la comunicación
+  % interna, así como para compartir e integrar parches, e IRC para la
+  % comunicación más instantánea.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{¿Qué es Jamendo?}
+\begin{center}
+\pgfuseimage{jamendo-logo}
+\end{center}
+\begin{itemize}
+  \item Comunidad de música libre, legal e ilimitada, publicada bajo licencias
+  Creative Commons
+  \item 36299 álbumes publicados
+  \item 226880 Reseñas de álbumes
+  \item 809051 miembros activos
+\end{itemize}
+\end{frame}
+
+\begin{frame}{¿Por qué JaMp?}
+\begin{block}{Intereses didácticos}
+\begin{itemize}
+  \item Punto de entrada a la plataforma
+  \item Familiarizarse con tecnologías habituales
+  \begin{itemize}
+    \item Acceso y manipulación de contenidos web
+    \item Reproducción de los contenidos multimedia
+  \end{itemize}
+\end{itemize}
+\end{block}
+\begin{block}{Intereses prácticos}
+\begin{itemize}
+  \item Cliente dedicado (frente a usar plugins)
+  \item Arquitectura solida y modular
+\end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{Arquitectura}
+
+\begin{frame}{Arquitectura utilizada}
+\begin{center}
+\pgfuseimage{jamp-architecture}
+\end{center}
+
+% Go to: 
+% http://yuml.me/diagram/scruffy/class/edit/
+%
+% and paste following code uncommented: 
+%
+%[JaMp Frontend (Python + GTK)]-.->[Jamp Controller (D-Bus)],[JaMp Frontend
+%(Python + GTK)]->[Jamp Backend (C + GObject)],[JaMp Controller (D-Bus)]->[JaMp
+%Frontend (Python + GTK)],[JaMp Controller (D-Bus)]->[JaMp Backend (C +
+%GObject)],[JaMp Backend (C + GObject)]-.->[JaMp Frontend (Python + GTK)]
+
+\begin{block}{Patrón arquitectónico Model-View-Controller}
+\begin{itemize}
+  \item Un {\it backend} para la recuperación de información de Jamendo y la
+  reproducción multimedia
+  \item Un {\it frontend} para la presentación de la información obtenida y la
+  gestión del la reproducción
+  \item Interconexión mediante D-Bus
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Backend}
+\begin{block}{Desarrollado en C con GObject}
+\begin{itemize}
+  \item Un proveedor de datos
+  \begin{itemize}
+    \item Accede a Jamendo usando libsoup
+    \item Manipula los datos recibidos usando libxml
+    \item Expone un método {\it Query}
+  \end{itemize}
+  \item Un gestor multimedia
+  \begin{itemize}
+    \item Permite la reproducción de los contenidos usando gstreamer
+    \item Expone métodos {\it Play}, {\it Pause}, notificación de progreso\ldots
+  \end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Frontend}
+\begin{center}
+\begin{figure}
+\pgfuseimage{jamp-screenshot}
+\hskip0.1cm
+\pgfuseimage{jamp-maemo-screenshot}
+\caption{Clientes buscando ``rock''}
+\end{figure}
+\end{center}
+\begin{block}{Desarrollado en Python}
+\begin{itemize}
+  \item Un cliente para GNOME, desarrollado con Glade
+  \item Un cliente para Maemo, usando Hildon
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Conexión mediante D-Bus}
+\begin{itemize}
+  \item Se usa D-Bus GLib en el lado del backend
+  \item Todas las llamadas son asíncronas
+  \item El modelo está totalmente desacoplado de la vista
+  \item El controlador se puede reaprovechar entre distintas vistas
+\end{itemize}
+\end{frame}
+
+\section{Desarrollando JaMp}
+% * El port a Fremantle (Maemo 5)
+%
+% Gracias a la arquitectura de la aplicación, para adaptar la misma a
+% Fremantle sólo es necesario crear una nueva interface de usuario usando
+% Hildon, pudiéndose reutilizar sin cambios tanto los backends como el
+% servicio de D-Bus -aunque una posible mejora pasa por sustituir el módulo
+% de gestión multimedia por el propio de Maemo 5, MAFW (Multimedia
+% Application Framework). El uso de Hildon permite emplear widgets que
+% optimizan el tamaño de pantalla y permiten una interacción con el
+% usuario de un modo "finger-friendly".
+%
+% La comunicación con D-Bus también se encuentra desacoplada de la vista,
+% lo que facilitará la creación de nuevas interfaces de usuario.
+%
+% * Otras cuestiones de interés
+%
+% Durante el desarrollo, también se han tratado aspectos como la
+% accesibilidad, la internacionalización y la localización, la
+% documentación -tanto a nivel de usuario como de desarrolladores-, las
+% pruebas de unidad u otras cuestiones como la compilación condicional
+% (por ejemplo, para facilitar ports a otras plataformas)
+
+
+\subsection{Manejando señales}
+
+\begin{frame}[fragile]{Manejando señales (I)}
+\begin{block}{Declarando la señal}
+
+\small{Se instala en la inicialización de la clase ({\it
+pref\_foo\_class\_init})}
+
+\scriptsize{
+\begin{verbatim}
+jmp_mplayer_signals[ERROR] = g_signal_new ("error",
+                                G_TYPE_FROM_CLASS (klass),
+                                G_SIGNAL_RUN_LAST,
+                                0,
+                                NULL,
+                                NULL,
+                                g_cclosure_marshal_VOID__STRING,
+                                G_TYPE_NONE,
+                                1,
+                                G_TYPE_STRING);
+\end{verbatim}
+}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Manejando señales (y II)}
+\begin{block}{Emisión}
+
+\small{Se envía la señal de acuerdo a la lógica de la aplicación (aquí, al
+recibir un error en {\it gstreamer})}
+
+\scriptsize{
+\begin{verbatim}
+g_signal_emit (self, jmp_mplayer_signals[ERROR], 0, error_message);
+\end{verbatim}
+}
+\end{block}
+\begin{block}{Conexión}
+
+\small{Nos conectamos a la señal en el cliente que use el componente (que podrá
+decidir qué comportamiento aplicar en función de los valores recibidos)}
+
+\scriptsize{
+\begin{verbatim}
+g_signal_connect (jmplayer, "error", G_CALLBACK (error_callback), NULL);
+\end{verbatim}
+}
+\end{block}
+\end{frame}
+
+\begin{frame}{Marshallers y GClosures (I)}
+
+\begin{itemize}
+  \item Los {\it GClosure}s permiten representar funciones de callback.
+  \item Existe un número de {\it GClosure}s predefinidos
+  \begin{itemize}
+    \item g\_cclosure\_marshal\_VOID\_\_VOID 
+    \item g\_cclosure\_marshal\_VOID\_\_BOOLEAN
+    \item \ldots
+  \end{itemize}
+  \item Es habitual querer callbacks no predefinidos
+  \uncover<2->\textbf{¿Cómo?}
+  \item<3-> Usando {\it glib-genmarshal}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Marshallers y GClosures (II)}
+
+\textbf{glib-genmarshal}
+
+\begin{itemize}
+  \item Permite crear GClosures personalizados
+  \item Recibe como entrada una lista $RETURN\_VALUE:ARG_{1},ARG_{i},ARG_{N}$
+\end{itemize}
+\begin{block}{Fichero marshal.list}
+\begin{verbatim}
+VOID:INT64,INT64
+VOID:STRING,POINTER
+VOID:STRING,UINT,POINTER
+\end{verbatim}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Marshallers y GClosures (y III)}
+
+\begin{block}{Soporte en autotools}
+\scriptsize{
+\begin{verbatim}
+jmp-marshal.h: marshal.list
+	glib-genmarshal --header --prefix=jmp_marshal marshal.list > $@
+
+jmp-marshal.c: marshal.list
+	glib-genmarshal --body --prefix=jmp_marshal marshal.list > $@
+\end{verbatim}
+}
+\end{block}
+
+\begin{block}{Usándolo en una señal}
+\scriptsize{
+\begin{verbatim}
+..., jmp_marshal_VOID__INT64_INT64, G_TYPE_NONE, 
+     2, G_TYPE_INT64, G_TYPE_INT64, NULL);
+     
+static void
+tick_cb (JmpMplayer *jmplayer, gint64 position, gint64 duration,
+               gpointer user_data)
+\end{verbatim}
+}
+\end{block}
+\end{frame}
+
+\subsection{Accediendo a servicios web}
+
+\begin{frame}[fragile]{Accediendo a Jamendo (I)}{Usando libsoup}
+\begin{block}{Encolando un mensaje}
+
+\small{Encolamos una petición para comunicarnos de forma asíncrona}
+\scriptsize{
+\begin{verbatim}
+...
+soup_session_queue_message (session, msg, process_response, cbdata);
+...
+\end{verbatim}
+}
+\end{block}
+
+\begin{block}{Recibiendo la respuesta}
+\small{Una vez recibida la respuesta, se gestionará aquí}
+\scriptsize{
+\begin{verbatim}
+static void
+process_response (SoupSession *session, SoupMessage *msg, 
+    gpointer user_data);
+\end{verbatim}
+}
+\end{block}
+\end{frame}
+% 
+\begin{frame}[fragile]{Accediendo a Jamendo (II)}{Analizando la respuesta:
+usando libxml2}
+\scriptsize{
+\begin{verbatim}
+static GList*
+parse_xml (const char *buffer, int length, JmpRelation relation)
+{
+        xmlDocPtr doc = xmlReadMemory (buffer, length, NULL, NULL,
+                                       XML_PARSE_NOBLANKS | XML_PARSE_RECOVER);
+        if (!doc) return NULL;
+
+        GList *result = NULL;
+
+        xmlXPathContextPtr context = xmlXPathNewContext (doc);
+
+        /* xpath is of the form "/data/album" */
+        xmlXPathObjectPtr xpath_obj =
+                xmlXPathEvalExpression (vos[relation].xpath, context);
+        if (!xpath_obj) goto bail;
+        ...
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Accediendo a Jamendo (y III)}{Analizando la respuesta:
+usando libxml2}
+\tiny{
+\begin{verbatim}
+    xmlNodeSetPtr nodeset = xpath_obj->nodesetval;
+    if (nodeset->nodeNr > 0)
+            result = generate_list (nodeset, relation);
+    
+    /* generate_list */
+    for (i = 0; i < nodes->nodeNr; i++) {
+            xmlNodePtr node = nodes->nodeTab[i];
+            if (node->type == XML_ELEMENT_NODE) {
+                    GObject *item = generate_vo (node->children, relation);
+                    if (item)
+                            list = g_list_prepend (list, item);
+            }
+    }
+    
+    /* generate_vo */
+    for (cur_node = a_node; cur_node; cur_node = cur_node->next) {
+             if (cur_node->type == XML_ELEMENT_NODE) {
+                     char *value = xmlNodeGetContent(cur_node);
+                     item_set (item, cur_node->name, value, relation);
+\end{verbatim}
+}
+\end{frame}
+
+\subsection{Utilizando D-Bus}
+
+\begin{frame}{Utilizando D-Bus}
+\begin{block}{Pasos}
+\begin{itemize}
+  \item Crear una interfaz XML exponiendo los métodos
+  \item Crear un servicio que implemente la interfaz, empleando D-Bus GLib
+  \item Integrar en autotools
+  \item Acceder desde Python
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Utilizando D-Bus (II)}{Definiendo una interfaz}
+\tiny{
+\begin{verbatim}
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE node PUBLIC
+	  "-//freedesktop//DTD D-Bus Object Introspection 1.0//EN"
+	  "http://standards.freedesktop.org/dbus/1.0/introspect.dtd">
+<node name="/">
+  <interface name="org.mswl.jamp">
+    <method name="Play">
+    </method>
+    <method name="GetVolume">
+      <arg type="d" name="volume" direction="out" />
+    </method>
+    <method name="Seek">
+      <arg type="x" name="seek_position" direction="in" />
+    </method>
+    <signal name="tick">
+      <arg type="x" name="position" />
+      <arg type="x" name="duration" />
+    </signal>
+  </interface>
+</node>
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Utilizando D-Bus (III)}{Implementando la interfaz}
+\tiny{
+\begin{verbatim}
+#include <dbus/dbus-glib.h>
+...
+connection = dbus_g_bus_get (DBUS_BUS_SESSION, &error);
+...
+#include <dbus/dbus-glib-bindings.h>
+...
+gboolean
+jmp_mplayer_service_seek (JmpMplayerService *self, gint64 seek_position,
+                          GError **error)
+{
+        return jmp_mplayer_seek (self->priv->player, seek_position);
+}
+...
+gboolean
+jmp_mplayer_service_get_volume (JmpMplayerService *self, double *volume,
+                                GError **error)
+{
+        *volume = jmp_mplayer_get_volume (self->priv->player);
+        return TRUE;
+}
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Utilizando D-Bus (III)}{Configurando D-Bus}
+\scriptsize{
+\begin{verbatim}
+...
+DBusGProxy *proxy = dbus_g_proxy_new_for_name (self->priv->connection,
+                                   DBUS_SERVICE_DBUS,
+                                   DBUS_PATH_DBUS,
+                                   DBUS_INTERFACE_DBUS);
+...
+org_freedesktop_DBus_request_name (proxy,
+                                MPLAYER_SERVICE_NAME,
+                                0, &request_name_result,
+                                &error));
+...
+dbus_g_connection_register_g_object (self->priv->connection,
+                                     MPLAYER_SERVICE_OBJECT_PATH,
+                                     G_OBJECT (self));
+\end{verbatim}}
+\end{frame}
+
+\begin{frame}[fragile]{Utilizando D-Bus (y IV)}{Conectando desde Python}
+\tiny{
+\begin{verbatim}
+bus = dbus.SessionBus()
+
+class PlaybackManager:
+    def __init__(self, tick_cb=None):
+        self._bus = bus
+        self._tick_cb = tick_cb
+        player_object = self._bus.get_object("org.mswl.jamp",
+                                             "/Player")
+        self._player_interface = dbus.Interface(player_object,
+                                          dbus_interface="org.mswl.jamp")
+        if self._tick_cb:
+            self._player_interface.connect_to_signal("tick",
+                                                     self._tick_cb)
+    def seek(self, value):
+        self._player_interface.Seek(value)
+...
+def tick_signal_handler(self, position, duration):
+    ...
+\end{verbatim}
+}
+\end{frame}
+
+\subsection{Port para Maemo}
+
+\begin{frame}[fragile]{Port para Maemo}{¿Qué es Maemo?}
+
+\begin{center}
+\pgfuseimage{maemo-logo}
+\hskip0.4cm
+\pgfuseimage{nokia-n900}
+\end{center}
+
+\begin{itemize}
+  \item Plataforma que corre en dispositivos móviles de Nokia
+  \begin{itemize}
+    \item Maemo 3: Internet Tablet 770
+    \item Maemo 4: Internet Tablets N800 y N810
+    \item Maemo 5: N900
+  \end{itemize}
+  \item Alrededor de los dispositivos se forma la comunidad Maemo
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Port para Maemo}{¿En qué fijarse?}
+\begin{block}{Se utiliza Hildon}
+\scriptsize{
+\begin{verbatim}
+hildon.StackableWindow
+hildon.GtkButton(gtk.HILDON_SIZE_AUTO)
+hildon.PickerButton(gtk.HILDON_SIZE_FINGER_HEIGHT,
+                    hildon.BUTTON_ARRANGEMENT_HORIZONTAL)
+\end{verbatim}
+}
+\end{block}
+\pause
+\begin{block}{La aplicación no debe parecer bloqueada}
+\scriptsize{
+\begin{verbatim}
+hildon.hildon_gtk_window_set_progress_indicator(self, True)
+banner = hildon.hildon_banner_show_information(self, "", message)
+banner.set_timeout(milliseconds)
+\end{verbatim}}
+\end{block}
+\end{frame}
+
+\begin{frame}{Port para Maemo}{Claridad y sencillez, ``finger friendly''}
+\begin{center}
+\begin{figure}
+\pgfuseimage{jamp-maemo-home}
+\hskip0.1cm
+\pgfuseimage{jamp-maemo-search}
+\caption{Pantalla de bienvenida y búsqueda}
+\end{figure}
+\end{center}
+\end{frame}
+
+\section{Futuro}
+
+\subsection{Objetivos}
+
+\begin{frame}{Objetivos futuros (I)}
+\begin{block}{Distribución}
+\begin{itemize}
+  \item Empaquetar JaMp
+  \item Crear un repositorio {\it PPA} para Ubuntu
+\end{itemize}
+\end{block}
+\begin{block}{Interacción con Jamendo}
+\begin{itemize}
+  \item Aumentar las APIs implementadas
+  \item Emplear Grilo para el acceso a los datos
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Objetivos futuros (y II)}
+\begin{block}{Ports}
+\begin{itemize}
+  \item Completar port para Maemo
+  \item Emplear MAFW en Maemo
+  \item Llevar a otras plataformas
+\end{itemize}
+\end{block}
+\begin{block}{Otras posibilidades}
+\begin{itemize}
+  \item Emplear otros toolkits gráficos
+\end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{¡Únete!}
+
+\begin{frame}{¡Únete a nosotros!}
+\begin{block}{¿Por qué?}
+\begin{itemize}
+  \item Te interesa Jamendo
+  \item Te interesa conocer las tecnologías que usamos
+  \item Te interesa llevar JaMp a una nueva plataforma
+  \item Quieres corregir algún error que hayas visto hoy ;)
+\end{itemize}
+\end{block}
+\begin{description}
+\item[Descarga el código] \url{http://gitorious.org/mswl2010/jamp}
+\item[Ponte en contacto con nosotros] \url{jamp-devel@googlegroups.com}
+\end{description}
+\end{frame}
+
+\begin{frame}{¡¡Gracias!!}
+\begin{center}
+\pgfuseimage{people}
+\end{center}
+\end{frame}
+
+\begin{frame}{Referencias}
+\scriptsize{
+\begin{description}
+\item[Señales]
+\url{http://library.gnome.org/devel/gobject/stable/signal.html}
+\item[D-Bus] \url{http://www.freedesktop.org/wiki/Software/dbus}
+\item[Hildon] \url{http://wiki.maemo.org/Hildon}
+\item[PyMaemo] \url{http://pymaemo.garage.maemo.org/}, \url{http://wiki.maemo.org/PyMaemo/UI_tutorial}
+\end{description}}
+\end{frame}
+
+\end{document}

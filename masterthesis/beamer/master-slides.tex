@@ -1,0 +1,349 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+
+\usepackage{color}
+\usepackage{multimedia}
+\usepackage{eurosym}
+
+\usetheme{Dresden}
+
+\beamertemplateballitem
+
+\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+
+\pgfdeclareimage[width=35px]{cc-license}{images/cc-by-sa.png}
+\pgfdeclareimage[width=35px]{igalia-logo}{images/igalia-logo.pdf}
+\pgfdeclareimage[width=35px]{libresoft-logo}{images/libresoft-logo.jpg}
+\pgfdeclareimage[width=220px]{people}{images/mswl-people.jpg}
+\pgfdeclareimage[width=220px]{yourstruly}{images/guadec-es-jamp.jpg}
+
+\setbeamertemplate{sidebar left}{%
+\vfill%
+\rlap{\hskip0.1cm%
+{\pgfuseimage{cc-license}}
+\hskip0.1cm
+{\pgfuseimage{libresoft-logo}}
+\hskip0.1cm
+{\pgfuseimage{igalia-logo}}
+}
+\vskip2pt%
+\llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+\vskip2pt%
+}
+
+\title{Master Thesis}
+
+\author[Simón Pena]{Simón Pena Placer}
+\institute[Free Software Master. A Coruña Edition. Igalia -- URJC]
+{Free Software Master, 2009-2010. A Coruña edition\\
+Igalia - Rey Juan Carlos University}
+\date{\today}
+
+\begin{document}
+
+% Portada
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Restablecemos la plantilla para eliminar los logos de la portada en adelante
+\setbeamertemplate{sidebar left}{}
+
+\begin{frame}{License}
+This work is licensed under the Creative Commons Attribution-Share Alike 3.0 Spain License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-sa/3.0/es/} or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+\end{frame}
+
+% Índice
+\begin{frame}{Contents}
+\tableofcontents
+\end{frame}
+
+\AtBeginSubsection[]
+{
+\begin{frame}<beamer>{Contents}
+\tableofcontents[current,currentsubsection]
+\end{frame}
+}
+
+\section{Introduction}
+
+\subsection{Background}
+
+\begin{frame}{About me}
+\begin{itemize}
+  \item Engineer degree in Computer Science from the University of A Coruña
+  \item {\it Free and Open Source Software} user since 2001
+  \item Working as a Software Engineer using C\# .NET on Windows
+  \item Passionate about technologies
+\end{itemize}
+\end{frame}
+
+\subsection{Motivations}
+
+\begin{frame}{Motivations}
+\begin{itemize}
+  \item Formalize raw knowledge
+  \item Learn desktop \& mobile development
+  \item Learn about licenses
+  \item Change from a passive role to an active one
+\end{itemize}
+\end{frame}
+
+\section{Teaching taken}
+
+\subsection{Modules}
+
+\begin{frame}{Modules}
+\begin{itemize}
+  \item Introduction to Libre Software
+  \item Integration and Administration of Libre Software
+  \item Libre Software development on Web environments
+  \item Libre Software development on Destkop \& Mobile environments
+  \item Studies of Libre Software communities
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction to Libre Software}
+\begin{itemize}
+  \item Most important {\it Libre Software} actors (Richard Stallman, Eric Raymond, Linus Torvalds, Miguel de Icaza\dots)
+  \item FLOSS-based business models (dual licensing, open core, product specialists\dots)
+  \item Licenses: permissive vs. copyleft, most well-known ones, compatibility\dots
+  \item Practices: Business model and WebKit report
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Integration and Administration of Libre Software}
+\begin{itemize}
+  \item Networking
+  \item Servers configuration and management
+  \item Version control with git
+  \item Security
+  \item Bash Scripting and Perl programming
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Libre Software development on Destkop \& Mobile environments}
+\begin{itemize}
+  \item Languages: C + GObject, Python
+  \item Tools: git, gdb, valgrind\dots
+  \item Technologies: GStreamer, libsoup, libxml, GTK+, D-Bus\dots
+  \item Quality: Unit testing, i18n, l10n, accessibility\dots
+  \item Workshop-based: JaMp
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Libre Software development on Web environments}
+\begin{itemize}
+  \item Languages and frameworks: PHP --with templates using Smarty--, CSS, Typo3, Java, Ruby On Rails, Django, JavaScript
+  \item Workshop-based: RiaGTD, for Java and ZK
+  \item Practices: Blog tutorial for Ruby on Rails, {\it Receitas Galegas} for Django
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Studies of Libre Software communities}
+\begin{itemize}
+  \item Sessions for Android, GNOME, KDE, Debian, OpenSolaris, Maemo, the Morfeo community\dots
+  \item Some practical Workshops: brief introduction to Qt on KDE, Android application development, Debian packaging\dots
+\end{itemize}
+\end{frame}
+
+\subsection{FOSDEM}
+
+\begin{frame}{FOSDEM 2010}
+\begin{itemize}
+  \item The Free and Open source Software Developers' European Meeting
+  \item A weekend in Brussels
+  \item Lightning talks, stands, devrooms, Beer event, key-signing party\dots
+  \item Meet some of the most important {\it FOSS} developers
+\end{itemize}
+\end{frame}
+
+\begin{frame}{I took the picture :)}
+\begin{center}
+\pgfuseimage{people}
+\end{center}
+\end{frame}
+
+\subsection{GUADEC-ES}
+
+\begin{frame}{GUADEC-ES 2010}
+\begin{itemize}
+  \item Hispanic version of the GNOME Users' And Developers' European Conference
+  \item Two days in A Coruña
+  \item Meet some of the most important {\it FOSS} {\it Hispanic} developers
+\end{itemize}
+\end{frame}
+
+\begin{frame}{And that's me :)}
+\begin{center}
+\pgfuseimage{yourstruly}\\
+\begin{flushright}
+\tiny{
+\href{http://www.flickr.com/photos/bertogg/4820321931/in/set-72157624559365014/}{Picture} from Berto's GUADEC-ES 2010 \href{http://www.flickr.com/photos/bertogg/}{gallery}
+}
+\end{flushright}
+\end{center}
+\end{frame}
+
+\section{Practicum}
+
+\subsection{Introduction}
+
+\begin{frame}{Objectives}
+\begin{itemize}
+  \item Work on the Grilo project at Igalia
+  \item Use the tools and methods employed in Free Software projects
+  \begin{itemize}
+    \item Mailing lists
+    \item Bugzilla
+    \item Wiki
+    \item Git
+    \item \dots
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Description of the project}
+\begin{itemize}
+  \item Framework focused on making media discovery and browsing easy for application developers
+  \item Provides a high-level API that abstracts the differences between different providers
+  \item Providers are managed as plugins, such as Youtube, Jamendo, Shoutcast, Vimeo\dots
+  \item Already a GNOME project
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Description of the work}
+\begin{itemize}
+  \item Improve Grilo’s binding support
+  \begin{itemize}
+    \item Studying and applying the mechanisms for the automatic binding generation using GObject Introspection
+    \item Testing generated bindings
+  \end{itemize}
+  \item Make general improvements in the framework and plugins system
+  \begin{itemize}
+    \item Analyzing and fixing defects
+    \item Designing and developing new features
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Work done}
+
+\begin{frame}{Work done}
+\begin{block}{Getting started}
+\begin{itemize}
+  \item Reading Grilo's documentation
+  \item Reading about bindings support
+\end{itemize}
+\end{block}
+\begin{block}{GObject Introspection}
+  \begin{itemize}
+    \item What is?
+    \uncover<2->{A tool which solves the problem of writing bindings by hand by using metadata on the library}
+    \item<3-> How does it work?
+    \uncover<4->{Converting the metadata into something readable by languages consuming those bindings}
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Bringing automatic bindings to Grilo}
+\begin{itemize}
+  \item Requires annotating all methods: \url{http://live.gnome.org/GObjectIntrospection/Annotations}
+  \item {\it Non-introspectable} parts of Grilo's API must be reworked \url{http://live.gnome.org/GObjectIntrospection/WritingBindingableAPIs}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Testing automatic bindings}
+\begin{itemize}
+  \item Cloning an existing C application using Grilo {\it grilo-test-ui}
+  \item Using Unit tests written in Python
+  \begin{itemize}
+    \item Provide a better code coverage
+    \item Can test functionality as well as bindings status
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Other contributions}
+\begin{itemize}
+  \item Improved Grilo's documentation
+  \item Refactored some code
+  \item Identified and fixed bugs
+  \uncover<2->{Also in other projects, such as PyGObject, GObject Introspection and GTK-Doc}
+\end{itemize}
+\end{frame}
+
+\subsection{Current status and future work}
+
+\begin{frame}{Current status}
+\begin{itemize}
+  \item Most of the API is now accessible via automatic bindings
+  \item Gjs does not support GObject.ParamSpec. PyGObject does
+  \item JavaScript alternate branch in the process of being pushed upstream
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Future work}
+\begin{itemize}
+  \item Keep the GObject Introspection support updated
+  \item Provide new plugins, such as TMDb or TVDb
+  \item Improving the existing Python unit tests
+  \item Create JavaScript unit tests
+  \item Check \url{http://live.gnome.org/Grilo/PlannedFeatures} for more
+\end{itemize}
+\end{frame}
+
+\section{Conclusions}
+
+\subsection*{Teaching}
+
+\begin{frame}{Teaching}
+\begin{itemize}
+  \item Wide range of topics covered
+  \item Specially enjoyed
+  \begin{itemize}
+    \item Software Engineering applied to Libre Software
+    \item Desktop \& Mobile development
+    \item Conferences
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection*{Practicum}
+
+\begin{frame}{Practicum}
+\begin{itemize}
+  \item Put into practice all the acquired knowledge
+  \item Contributed to a GNOME project
+  \item Learn new technologies
+  \item Experienced the feeling of being in the {\it cutting-edge}
+\end{itemize}
+\end{frame}
+
+\subsection*{Questions}
+
+\begin{frame}{Thanks for listening!}
+\begin{center}
+\huge{
+Questions?
+}
+\end{center}
+\end{frame}
+
+\subsection*{References}
+
+\begin{frame}{References}
+\scriptsize{
+\begin{description}
+\item[Morfeo's Forge]
+\url{https://forge.morfeo-project.org/plugins/scmsvn/viewcvs.php/?root=freeswmaster}
+\item[JaMp] \url{http://gitorious.org/mswl2010/jamp}
+\item[RiaGTD] \url{http://git.igalia.com/cgi-bin/gitweb.cgi?p=riagtd.git;a=summary}
+\item[Grilo] \url{http://live.gnome.org/Grilo}
+\end{description}}
+\end{frame}
+
+\end{document}

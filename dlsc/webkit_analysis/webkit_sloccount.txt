@@ -1,0 +1,44 @@
+Creating filelist for webkit
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Warning: in webkit, number of duplicates=478
+Computing results.
+
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+824955  webkit          cpp=601590,php=76906,perl=60775,ansic=24992,python=23391,
+                        xml=22725,objc=8900,yacc=3542,ruby=1120,sh=866,java=129,asm=19
+
+
+Totals grouped by language (dominant language first):
+cpp:         601590 (72.92%)
+php:          76906 (9.32%)
+perl:         60775 (7.37%)
+ansic:        24992 (3.03%)
+python:       23391 (2.84%)
+xml:          22725 (2.75%)
+objc:          8900 (1.08%)
+yacc:          3542 (0.43%)
+ruby:          1120 (0.14%)
+sh:             866 (0.10%)
+java:           129 (0.02%)
+asm:             19 (0.00%)
+
+
+
+
+Total Physical Source Lines of Code (SLOC)                = 824,955
+Development Effort Estimate, Person-Years (Person-Months) = 230.82 (2,769.89)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 4.24 (50.82)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 54.50
+Total Estimated Cost to Develop                           = $ 31,181,241
+ (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."

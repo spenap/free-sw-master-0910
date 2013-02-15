@@ -1,0 +1,163 @@
+In this section, results will be exposed that follow the previously explained methodology. They answer issues like project's size, project's development model, companies supporting development, and most valuable developers--contributors. For that matter, results will be categorized in repository-related, developers' mailing list-related and unassigned bugs' mailing list-related.    
+
+\subsection{Repository}
+
+In order to measure the repository size, a set of variables are taken into account: number of commits, number of committers, number of files under version control, number of lines of code and years of activity. Table \ref{repo:summary} presents that information. In figure \ref{sloccount:summary} the distribution of programming languages in the project is shown\footnote{Number of lines of code and programming language distribution were generated using David A. Wheeler's `SLOCCount'.}.	
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{lr}
+  \hline
+ Concept & Count \\ 
+  \hline
+Number of commits & 44143 \\ 
+Number of committers & 195 \\
+Number of files under version control & 80860\\
+Number of lines & 824955\\
+Years of activity & 9\\
+   \hline
+\end{tabular}
+\caption{Brief summary of the repository's activity}
+\label{repo:summary}
+\end{center}
+\end{table}
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/sloc.pdf}
+\caption{Programming language distribution}
+\label{sloccount:summary}
+\end{figure}
+
+Having presented the data about the project size, the following results will help identify the most important committers. Table \ref{commits:top20} shows the {\it All-time} top 20 committers. However, a quick glance at it lets us find several committers sharing their username, but using different email addresses. Results from table \ref{commits:top20grouped} show that information corrected, so users get their contribution added up even if they have used different email addresses to commit. We can identify one user, ``\textbf{darin}'', as the one who has done the most commits: $4876$.
+
+\input{tables/top20CommitsByCommitter.tex}
+\input{tables/commitsByCommitterGrouped.tex}
+
+% Si se desea introducir el modelo de cebolla, correspondería aquí.
+
+In order to have information about last trends, last year top 20 committers are shown in table \ref{commits:2009top20}. Our previously identified {\it top committer}, ``darin'', is now located at the $5^{th}$ place, being ``eric@webkit.org'' the developer who has done the biggest amount of commits last year: $1646$. His progression is worth noting, as he was ranked $3^{rd}$ all-time, with $1967$ commits, which means he has done  $83,68\%$ of his work last year.
+
+\input{tables/commitsByCommitter2009.tex}
+
+Complete email addresses are presented in table \ref{commits:2009top20}. After November 2007, users committing to the repository stopped using just their username, and started using an email address for commits. Table \ref{commits:november} shows who did the last commits using the old username schema, and how after day 12 nobody used the username alone.
+
+\input{tables/individualCommitsAfterNovember2007.tex}
+
+After November 2007, it is possible to query the repository to get the number of commits done by users on behalf of their company. If we assume that an {\it username@domain} is working for a company after which the domain is named, the table \ref{commits:company} shows how the commits are distributed among the companies participating in WebKit project. 
+
+Analyzing the results, we can see how Apple, through {\it Apple.com} and {\it WebKit.org} domains, leads the development. Google, through {\it Chromium.org} --an Open Source project which serves as the foundation for the Google Chrome browser-- also has an important contribution, but far from Apple's. Other companies have just minor contributions.
+
+\input{tables/commitsByCompany.tex}
+
+\subsubsection{Temporal Analysis}
+
+To determinate how the project is evolving through time, we have analyzed how the distribution of commits varies. We will present a monthly, weekly and daily analysis through the 7 years of life of the project. 
+
+Figure \ref{commits:evo:monthly} presents the monthly analysis. The first subchart depicts the average monthly commits growing with time\footnote{The line dropping in the 2010 is due to the data being extracted in the first week of the year}. The second subchart represents the seasonal variation extracted from the data: each year presents one major peak of activity, with two smaller ones, and two important drops. 
+The drops can be easily matched with holidays, with one being around Christmas time, and the other in the summer. The major peak is located around November, and could be due to the project's life cycle.  
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/commitsByMonth.pdf}
+\caption{Evolution of yearly activity in the repository}
+\label{commits:evo:monthly}
+\end{figure}
+
+Figures \ref{commits:evo:weekly} and \ref{commits:evo:weekly} show the weekly and daily analysis, respectively. Together with the monthly exposed before, they show how WebKit's development model is company-led, as work load is concentrated during the office time, between monday and friday. 
+Weekly analysis shows how the peak of activity is concentrated at the beginning of the week, and decreases slowly after that, with little to none work done on Saturdays and Sundays.  
+Daily analysis is more interesting, as it shows how the activity increases through the day, decreases a little in the lunch break, and keeps increasing until the office time is over. Then it goes down to almost zero.
+The bottom line with all of these analysis is that the project is continuously increasing its activity. 
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/commitsByDay.pdf}
+\caption{Evolution of weekly activity in the repository}
+\label{commits:evo:weekly}
+\end{figure}
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/commitsByHour.pdf}
+\caption{Evolution of daily activity in the repository}
+\label{commits:evo:daily}
+\end{figure}
+
+In order to finish the repository analysis, figure \ref{commits:lorenz} shows the Lorenz Curve, which allows us to tell how the work is distributed among the project developers. The Gini coefficient is $0.7057624$. Those results mean that 70\% of the work is done by the 20\% of the people.
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/lorenz.pdf}
+\caption{Lorenz curve for the repository}
+\label{commits:lorenz}
+\end{figure}
+
+\subsection{Developers' mailing list}
+
+As we did with the repository, a set of variables were taken into account to evaluate the developer's mailing list. Figure \ref{dev_mls:summary} presents the number of emails sent, number of people writing to the list and mailing list lifespan. 
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{lr}
+  \hline
+Concept & Count \\ 
+  \hline
+Emails sent to the list & 9760 \\ 
+Unique email addresses writing to the list & 1199 \\ 
+Different user names writing to the list & 1132 \\
+Years of activity & 5\\
+   \hline
+\end{tabular}
+\caption{Brief summary of the developers' mailing list}
+\label{dev_mls:summary}
+\end{center}
+\end{table}
+
+Again, after having presented the mailing list summary, users contribution in the mailing list is measured now. Table \ref{emails:top20} shows the {\it all-time} top 20 posters to the mailing list. We can see the same user ``darin'' being the one who contributed the most, with $623$ emails sent. However, ``mjs'' is closer here, with $605$, just $18$ less than him. 
+
+\input{tables/messagesByPosters.tex}
+
+Table \ref{emails:2009top20} shows last year's top 20 posters, so we can have current info about the mailing list. In this case, ``darin'' is still the leader with $288$ emails sent, and with ``mjs'' effectively close. If we search for ``eric'', we found him with $123$ emails sent. As he had sent $170$ in the all-time rankings, he has done $72,35\%$ of his contribution last year.
+
+\input{tables/messagesByPosters2009.tex}
+
+As opposed to the repository, users writing to the mailing list have been sending a full email address all the time. Even if several users had more than one email address, as shown in table \ref{emails:multiple}, the queries used previously have taken it into account. 
+
+\input{tables/emailAddressesByUser.tex}
+
+Thanks to the fact that it is possible to retrieve the full email address for all the project's history, the table \ref{emails:company}, which shows emails sent from a given domain address, is really interesting to see which companies supported WebKit's development. Ignoring free available domain names like ``gmail.com'' or ``yahoo.com'', Apple ({\it apple.com} and {\it webkit.org}), Google ({\it chromium.org} and {\it google.com}) or KDE ({\it kde.org}) are interesting examples about entities interested in WebKit. 
+
+\input{tables/messagesByCompany.tex}
+
+\subsubsection{Temporal Analysis}
+
+Like we did with the repository, temporal analysis of the mailing list evolution through the years is a good tool to tell about WebKit's health. Again, we will present a monthly, weekly and daily analysis.
+
+Figure \ref{mails:evo:monthly} shows how the average monthly activity evolved through the project's life. As in the repository case, there is a major peak, just before the summer time, and peaks after each holiday season. It is interesting to note how Christmas time suppose a complete halt in communications.
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/messagesByMonth.pdf}
+\caption{Evolution of yearly activity in the developers' mailing list}
+\label{mails:evo:monthly}
+\end{figure}
+
+Figures \ref{mails:evo:weekly} and \ref{mails:evo:weekly} show the evolution in weekly and daily activity, respectively. The weekly one shows an activity which increases through the week, going to almost-zero on Sunday. It is interesting to note that mailing list activity looks bigger than repository activity on Saturdays. Regarding to daily activity, it can be said that there is activity answering them sometime in the morning. After that, it halts around the lunch time, only to increase until the end of the office time. Surprisingly, it looks like there is another peak of activity, maybe at home now, after that break.
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/messagesByDay.pdf}
+\caption{Evolution of weekly activity in the developers' mailing list}
+\label{mails:evo:weekly}
+\end{figure}
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/messagesByHour.pdf}
+\caption{Evolution of daily activity in the developers' mailing list}
+\label{mails:evo:daily}
+\end{figure}
+
+\subsection{Unassigned bugs mailing list}
+
+Every time a bug is opened, it gets sent to this mailing list. Updates and changes regarding those bugs also send an email to the list\footnote{\url{http://webkit.org/contact.html}}. There are 160342 emails in this list. 
+
+Figure \ref{bugs:evo:monthly} shows the average monthly activity in the mailing list. While at the beginning it has not grown as much as the developers mailing list, year 2009 seems to be a great activity explosion. Regarding to the seasonal activity, it looks like {\it bug hunting} activity also decreases during the Christmas time, just as it was professionally carried, too. After that, there is another drop in activity around February-March, and then it stays more or less constant until Christmas time again. It is interesting, as the expected drop in summer time does not appear so highlighted here.  
+
+\begin{figure}[!hptb]
+\includegraphics[width=400pt]{images/unassignedBugsByMonth.pdf}
+\caption{Evolution of the monthly activity on the unassigned bugs mailing list}
+\label{bugs:evo:monthly}
+\end{figure}

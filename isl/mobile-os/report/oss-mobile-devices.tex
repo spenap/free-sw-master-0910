@@ -1,0 +1,112 @@
+% Definimos el estilo del documento
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+
+% Acentos y eñes
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\usepackage{hyperref}
+
+% Definimos titulo, autor, fecha.
+\title{Open Source Software \& Mobile Devices}
+\author{Sim\'on Pena Placer}
+\date{\today}
+
+%Empieza el documento
+\begin{document}
+
+% Generamos titulo e indice de contenidos
+\maketitle
+% \tableofcontents
+
+% Empezamos capitulos
+\section{Introduction}
+	Open Source Software is increasing its presence in mobile devices. Mobile phones, Internet Tablets, Car Navigation Systems\dots many of them use Open Source Software, ranging from the full Operating System to other concrete and more specific parts.
+
+	This article is meant to be a review of the current state of the art of the software used in mobile devices. Main Operating Systems will be presented, and iPhone OS relationship to Open Source will be exposed. 
+
+	We will rely on the smartphone market share for choosing the OS to present here. While Maemo, Openmoko or Bada don't have an important presence in the market, their openness make their presence interesting.  
+
+\section{Symbian}
+
+	Symbian was the OS of choice for companies like Nokia, Motorola, Sony Ericsson, Siemens and others\cite{symbian:old-members}. While the core development was centralised, the User Interfaces were adapted, enhanced and customised for each manufacturer\cite{wiki:symbian}. For some time, Symbian lead the market, over RIM, Window Mobile or PalmOS. However, since the iPhone launch that trend is changing\cite{market:admob,market:gartner,market:canalys1, market:canalys2}.
+
+	In 2008, Nokia, Sony Ericsson, Motorola and NTT DOCOMO created the Symbian Foundation\cite{xatakamovil:symbian}, combining all the different Symbian interfaces (S60, UIQ and MOAP). Several other companies joined\cite{symbian:current-members}, and now the OS is being open sourced. The Symbian Foundation platform will be available to members under a royalty-free license from this non-profit foundation, and, under an Eclipse Public License, free for all by 2010\cite{symbian:license}.
+
+Symbian supports many different languages. Besides native C++, Java ME, Flash Lite, Python, Ruby and .NET are supported\cite{symbian:developing}.
+
+\section{Android}
+
+Android is a software stack for mobile devices that includes an operating system, middleware and key applications\cite{android:whatis}. It was initially developed by Google, and later by the Open Handset Alliance (Google, HTC, Intel, Motorola, Qualcomm, Texas Instruments, Samsung, LG, T-Mobile, Nvidia\dots)\cite{android:members} 
+
+It is licensed under the Apache Software License, a BSD-type license which allows closing derivative works\cite{android:license}. Most of the OS is open source, with some key components and applications being proprietary. Vendors and manufacturers can change and modify their versions, and usually customise their UI, without needing to return back the changes they made, This, added to the fact that several versions coexists\cite{android:fragmentation}, is said to lead to internal fragmentation. 
+
+Android development is done mainly in Java, but C/C++ is also possible for native-low level libraries\cite{android:developing}. Despite said fragmentation, third parties' development for Android is growing, and the platform market share has increased largely, threatening Windows Mobile\cite{android:share}. While the Linux Kernel is used, existing Linux applications cannot be ported without fully rewriting them. Even if Java is used, neither J2SE nor J2ME apis are used, but Android's, so the only shared technology would be the syntax.\cite{android:java}
+
+\section{Maemo}
+
+Maemo is a software platform that is mostly based on open source code and powers mobile devices such as the Nokia Internet Tablets. Maemo platform has been developed by Nokia in collaboration with many open source projects such as the Linux kernel, Debian, GNOME, and many more\cite{maemo:about}.
+
+Maemo5, the 6th version of the OS, powers the N900 Nokia mobile phone, a high-end N-series device, in what was called step 4 out of 5\cite{maemo:roadmap}. Maemo is mostly a GNU / Linux distribution, with some closed proprietary software and a phone stack. It is interesting to note that Nokia and Intel are also pushing oFono\cite{ofono:sponsors}, an open source project for developing an open source telephony solution\cite{ofono:about}.
+
+%http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Top_Level_Architecture
+
+The officially supported programming language for Maemo is C, but C++, Python, Vala and others are also possible. Porting an existing GNU / Linux application should only require recompiling for the ARM architecture, and taking care of the touch screen, limited power and battery constraints.
+
+While many of Maemo OS is open source, there are closed binaries from Nokia. Mer project aims to get a fully open source system by using the open source code from Maemo and replacing the closed bits\cite{maemo:mer}. 
+
+% http://ofono.org/documentation
+\section{Moblin}
+
+Moblin is a Linux platform targeting mobile devices, such as netbooks, MIDs, and IVI systems. It is currently built around the Intel Atom Processor, and designed to minimise boot times and power consumption\cite{moblin:about, wiki:moblin}.
+
+\section{WebOS}
+
+\nocite{wiki:WebOS}
+WebOS is Palm Inc.'s operating system for their smartphone devices. The Palm webOS platform is based on the Linux 2.6 kernel, with a combination of open source\cite{WebOS:OSS} and Palm components providing user space services, referred to as the Core OS\cite{WebOS:architecture}. It is called WebOS because it is based on Webkit, and its development is done with HTML, CSS and JavaScript\cite{WebOS:developing}.
+
+\section{Openmoko}
+
+Openmoko Linux is an operating system for smartphones developed by FIC. Unlike most other mobile phone platforms, the phones on which Openmoko Linux runs are designed to provide end users with the ability to modify the operating system and software stack\cite{openmoko:about}. The platform is also supported by other mobile phones.
+
+While Openmoko's original goals were to provide both hardware (in the form of smartphones) and software\cite{wiki:openmoko}, currently they only support the Neo FreeRunner and had discontinued development of other devices, focusing on software\cite{wiki:openmokoOS, slashdot:openmoko}. 
+
+\section{Bada}
+	The bada platform is the new smartphone operating system from Samsung. According to Samsung, bada (korean word for ocean) is a new open platform that should enable the rich smartphone user experience on Samsung mobile devices\cite{bada:goal}. One of Saumsung goals for bada is to provide users with a low-cost smartphone\cite{bada:press}. However, although the press releases used terms like ``open" or ``free", it is yet unclear what will be the relationship of bada with OSS. 
+
+It is interesting to note that Samsung is still present in the Symbian Foundation, LiMo Foundation and the Open Handset Alliance.
+
+\section{iPhone OS}
+
+iPhone OS, sometimes also known as OS X Mobile, is the least OSS related in this review. Although it is built on top of the Darwin Core, an Open Source BSD kernel, that code is just available for x86, not for the ARM platform\cite{wiki:darwin}. 
+
+What it is very important to note is its relationship with Open Source Software via third party applications. For long time, Apple SDK's terms of use put a NDA on the APIs provided from Apple. This was an important constraint: releasing source code for an application could violate Apple's NDAs, and keeping the code closed would violate Free Software Licenses\cite{iphoneOS:NDA,iphoneOS:LA}.
+
+While some of those NDA were removed\cite{iphoneOS:NDAreleased}, problems still exist with licenses like GPLv3. The license require the full code to be made available and the user being able to build their own version of the software. However, the applications must be signed by Apple to be available on the App Store, and those private keys are not available\cite{wiki:iphoneOSLicensing, iphoneOS:GPLv3a, iphoneOS:GPLv3b}.
+
+That virtually keeps GPL code out of the App Store. 
+
+\section{LiMo}
+	LiMo Foundation is an industry consortium dedicated to creating the first truly open, hardware-independent, Linux-based operating system for mobile devices. Backing from major industry leaders puts LiMo at the Heart of the Mobile Industry and makes LiMo the unifying force in Mobile Linux\cite{wiki:limo}.
+
+Among others, Motorola, NEC, NTT DoCoMo, Panasonic Mobile Communications, Samsung Electronics and Vodafone participate in LiMo. 
+              
+The platform consists of Member contributions and Open Source technologies -- so costs and results are shared. Fragmentation is dealt with via reciprocation of fixes, and optimizations and structured compliance certification\cite{limo:faq}. Mutual patent non-assertion is also an important goal of the Foundation.
+
+Third Party applications will be developed in C / C++, where the OEM has it enabled, and HTML, CSS and JavaScript in later stages of development.
+
+\section{Mobilinux}
+
+MontaVista Mobilinux 5.0 is an optimized Linux operating system and development platform for wireless handsets and other mobile devices such as GPS devices, portable medical devices, and wireless POS terminals. It looks like it is a low-level layer where you can build LiMo / Android / other systems on it\cite{wiki:mobilinux,mobilinux:about}.
+
+\section{Conclusions}
+
+By looking at these OS, it is clear that Open Source Software is getting a great push in the mobile devices market. The Linux kernel, in particular, is one of the most used solutions, shared by WebOS, Android, Maemo, OpenMoko, Limo and Mobilinux. As a common denominator, most companies look for OSS solutions due to the shared development approach. 
+
+Still, most of them keep using proprietary solutions for specific / strategic components. Another issue is how the end-user perceives the openness in his device: LiMo approach looks like ``open for companies and developers, closed for the end-user", and some companies using Android, or Palm's WebOS do the same.
+
+While Openmoko or Maemo (itself or via Mer) have a more open approach, there is still the issue of security. Most of these OSs require application signing, avoiding unsigned applications to be installed. Even if that is a good method to avoid malicious code to be executed, it imposes restrictions on the user.
+
+\bibliographystyle{plain}
+\bibliography{oss-mobile-devices.bib} 
+\end{document}

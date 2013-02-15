@@ -1,0 +1,134 @@
+This report has covered all the work done during the third edition of the
+Master on Free Software.
+
+First, the background and motivations leading to the enrolment were stated,
+and a set of objectives was introduced to allow a proper self-evaluation once
+that the master was over. The evaluation is really satisfactory, but a more
+detailed one will be done in the last section of this chapter.
+
+Then, the subjects covered during the master were reviewed and the work done
+on each area, both theoretical and practical, was presented. While the fields
+of knowledge covered were really broad, all the subjects were really enjoyable.
+The next section will present some specific conclusions about them.
+
+After that, the master's {\it practicum} work done in the Grilo project at Igalia
+was explained, as well as other contributions originated from that work. More complete
+conclusions will be presented in the second section of this chapter.
+
+\section{Subjects}
+
+The subjects taken during the master covered a really wide range of topics.
+While my main interests were on the development modules, I was happily surprised
+with a subject I had not think of: Software Engineering techniques applied
+to {\it Libre Software} projects. 
+
+There are really large {\it Libre Software} projects (such as the Linux kernel,
+GNOME, KDE or many others) with plenty of open information available (software code repository,
+bugs databases, mailing lists archives\dots), being possible to
+analyze all these data sources, getting to know the health of the project,
+who the main developers are, how bugs are distributed between releases, how
+active the community around the project is\dots But not only can
+{\it Libre Software} projects benefit from Software Engineering techniques,
+but also those techniques can be improved. Accessing to proprietary software
+code to perform certain analysis was expensive and required researchers to
+sign NDAs, and that would cause those analysis to be impossible to replicate,
+banning peer review. As a consequence, I felt like doing Software Engineering analysis
+on {\it Libre Software} projects was not only an innovative approach but also
+a logical one.
+
+\subsection{FOSDEM}
+
+As a complementary activity which could be considered part of the {\it Introduction
+to Libre Software} and {\it Detailed Studies of Libre Software Communities}, the
+students were sponsored to go to the FOSDEM in Brussels: The Free and Open source
+Software Developers' European Meeting, one of the most important
+{\it Libre Software} conferences. During a weekend in February we had the opportunity
+to attend to several events: from a Beer event, where developers would meet and
+have a beer, to lots of different keynotes, passing through a key-signing party.
+
+Meeting the key developers of many important projects and communities, listening to
+them talking about their work or just enjoying the ambient: it was an unforgettable
+experience.
+
+\subsection{GUADEC-ES}
+
+After the work done on the Desktop \& Mobile development project, and taking
+advantage from the GUADEC-ES being in A Coru\~na, we were suggested to submit
+a talk proposal.
+
+The GUADEC-ES is the main GNOME conference in Spanish language. In its 7th edition,
+it was based on A Coru\~na, which made easy for us attending to it. I was responsible
+of elaborating the talk proposal, explaining the development done in the Desktop \&
+Mobile application.
+
+As the proposal got approved, I went to write the presentation slides and give the
+talk. It was a really satisfactory experience, even if I felt that we still had
+a lot of work to do to get close to other GNOME {\it hackers} --and become {\it hackers}
+ourselves. Nevertheless, the conference was very interesting and people there was
+helpful and willing to share what they knew, so it was a perfect complement to the
+development courses.
+
+\section{Practicum}
+During the {\it practicum}, I had the opportunity to put in use all the knowledge acquired
+during the master's subjects. I employed technologies such as git, for source code
+versioning and generating patches for peer reviews, and did extensive use of the
+mailing list and IRC to communicate with other Grilo developers (setting up
+a \href{http://simonpena.homedns.org/grilo-logs/}{server} for making Grilo IRC logs available). 
+
+As a consequence of using so {\it cutting-edge} technologies, it was common to find
+issues either in GObject Introspection itself or in PyGObject, Gjs or even GTK-Doc
+(as it needs to recognize the annotations used in GObject Introspection). That led me to
+identify, file and sometimes fix bugs present in these projects, while communicating
+with other upstream {\it hackers}. All this experience was really rewarding, and
+as a result of it, I also got committer permissions to the GNOME project.
+
+\section{Summary}
+
+As a final summary of this report, a review of each individual is provided:
+
+\begin{description}
+\item {Formalizing Knowledge:} While initially I only focused on formalizing
+my systems administration knowledge, now that the master is over, I feel like
+I have consolidated all fields studied. From said systems administration to programming,
+passing trough licensing or Software Engineering, I now have a really broad vision
+of these areas. I have discovered new sources for further learning, good channels
+to ask to experts and a number of contacts in the field who will surely prove
+helpful. A good example for that already happened during the GUADEC-ES, when
+well-known {\it hackers} Javier Jard\'on and Nacho (Ignacio Casal Quinteiro) helped
+me solve some JHBuild issues.
+
+\item {Mobile and Desktop Development}: As I have hoped, mobile development was
+focused in a way which allowed reusing of existing components and technologies,
+also present in desktop developments. We enjoyed Maemo and Android sessions, and
+were also told about MyMobileWeb, a project which targets mobile devices from
+the web development point of view. Accomplishing this objective was really
+rewarding: besides the practical development being done in the master scope,
+I could give a great push to a personal project of mine, Butaca, which follows
+the same architectonic design principles. Having the opportunity
+to attend to FOSDEM and GUADEC-ES and giving a presentation in the later was
+simply great.
+
+\item {Desktop Development}: The existing collaboration between KDE and GNOME
+communities is really a relief, and should work fine against the typical
+said that they are fighting each other and wasting resources. The freedesktop
+project, being a strong {\it foundation}\footnote{As in buildings} on which both
+projects can rely is a great example on how collaboration and competition are
+the engine which moves {\it Libre Software}
+
+\item {Licensing:} As I previously said with regards to {\it formalizing knowledge},
+I know feel like I have consolidated my knowledge of the licensing field. I can now
+tell from different licenses, classify them between {\it permissive} and {\it copyleft},
+know what are these kind of licenses better for, and how they interact with
+each other. With this information, I can also help deciding which license fits better
+a new project in an area where it is being innovative, or which one is more
+suitable when there are already other options.
+
+\item {Role Played:} My first contribution to a {\it Libre Software}
+project got accepted quite early during the master, being a patch to mlstats which
+improved the FROM field extraction when parsing mailing lists. After that,
+I contributed with many improvements to Grilo in the {\it practicum} scope,
+from enhancements in the automatic binding generation to code optimizations or other
+fixes. While doing the contributing to Grilo, I also had the chance to file bugs
+and provide patches to different issues in other projects, such as GTK-Doc, PyGObject,
+or GObject-Introspection.
+\end{description}

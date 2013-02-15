@@ -1,0 +1,206 @@
+This chapter covers the teaching program taken during the master. First, the modules
+covered will be stated, and the subjects in which they were divided will be presented.
+After that, an in-depth review of each module will be provided.
+
+The master is organized around several fields or modules:
+
+\begin{itemize}
+\item Introduction to Libre Software
+\item Integration and Administration of Libre Software
+\item Libre Software development on Web environments
+\item Libre Software development on Destkop/Mobile environments
+\item Studies of Libre Software communities
+\end{itemize}
+
+While those modules present all the topics to be covered in the master, in order
+to make them easier to study and evaluate, they are separated into several different subjects:
+
+\begin{description}
+
+\item[Introduction to Libre Software]
+
+During this subject, a general overview on Libre Software was introduced. Libre Software as a concept,
+with its motivations and consequences, was presented and then its history and most important actors
+were also contextualized.
+
+It was also taught how Software Engineering techniques and Libre Software can benefit from each other,
+and, for that, licenses, patents and legislation are studied.
+
+\item[Systems Integration with Libre Software]
+
+During this subject, a really wide range of technologies in the Systems Administration realm were presented.
+From networking, understanding and setting up web servers, email servers and other communication mechanisms
+to the security concerns most important when managing those systems, this subject made use of practices and
+seminars to help acquiring a knowledge very valuable for a Systems administrator.
+
+Besides, to better perform some of the common tasks found on the {\it sysadmin} day, Bash Scripting and Perl were also
+used, so they could be more easily automated.
+
+\item[Libre Software Development]
+
+During this subject, the main differences between a proprietary project and a Libre one were presented. Tools used
+to communicate and coordinate projects were introduced, as well as several development platforms,
+programming languages. To achieve that goal, this subject made use of several practices and workshops, where
+near-to-real-life projects were developed.
+
+\item[Quality on Libre Software Development]
+
+During this subject, the knowledge acquired in the previous one was improved by introducing other elements very
+important for a successful project. As a result, documentation, packaging, versioning and distribution of Libre Software
+were studied. The importance of notifying, detecting and solving errors was stated, and unit testing and continuous
+integration were introduced.
+
+%Calidad y certificaci\'on de software libre. Claves para el \'exito de un proyecto de software libre. Gesti\'on de grupos de voluntarios. Publicaci\'on y difusi\'on.
+
+\item[Detailed Technical Studies of Libre Software Projects]
+
+During this subject, some well known, existing Libre Software projects were studied, applying for that those techniques
+and knowledge acquired in the previous subject. Among others, there were seminars on Android, GNOME, KDE, Open Solaris
+and Telefonica I+D projects EzWeb and MyMobileWeb.
+
+\item[Dynamics of Libre Software Communities]
+
+During this subject, the following concepts were introduced
+\begin{itemize}
+\item Business Models based on Libre Software. Migrations to Libre Software.
+Success stories and costs analysis
+\item Methodologies, techniques and tools to analyze Libre Software Projects, communities and dynamics.
+Data Sources and metrics used in Libre Software studies
+\item Analysis of business view of Libre Software
+\end{itemize}
+
+\end{description}
+
+\section{Introduction to Libre Software}
+
+In the course of this subject we learnt about the most important people in this movement,
+such as Richard Stallman, Eric Raymond, Linus Torvalds, Miguel de Icaza\dots
+We also learnt about the most successful FLOSS-based business models\cite{flossmetrics:bm}
+such as dual licensing, open core, product specialists\dots Licenses were
+an important matter, too: we explored the most important ones, learnt the
+differences between permissive and {\it copyleft} ones, and got to know the Open Source
+Initiative and Free Software Foundation as the main entities to classify and
+approve different Free and Open Source licenses. Later we analyzed, using the
+Libresoft tools\cite{libresoft:tools, moodle:libresoft_tools, melquiades:libresoft_tools},
+several important communities and projects.
+
+To better consolidate the acquired information, we have to develop several works:
+\begin{itemize}
+\item About the business models part, I presented a business model focused on service-oriented
+applications for mobile devices\cite{businessmodel}. While accounting numbers are not necessarily accurate,
+all the process followed to obtain them, as well as sources and references, is perfectly valid
+should I decide to become an entrepreneur. With regards to the ideas presented,
+they are built on existing technologies and, in fact, some of them are being
+exploited right now.
+
+\item As an introductory work for evaluate Free and Open Source penetration in the
+real world, I did a review of the then-current Operating Systems in the mobile devices world\cite{osmobile}.
+While it was a valid review of the state of the art during Christmas, significant things
+have changed in such a dynamic field.
+
+\item For a practical training in the use of the Libresoft Tools, the Eye of GNOME project's
+source code repository and mailing list were analyzed\cite{eogtraining}. That led to the identification of 
+the most important contributors to the project.
+
+\item Once that we had undergone that training, a bigger analysis was performed. For
+that, I focused on the WebKit Project\cite{webkit:home, wiki:webkit}. My original idea was
+quite ambitious, as I wanted to compare WebKit and Gecko, but soon I focused on WebKit.
+While this work\cite{webkitreport} is really interesting, the conclusions I reached were quite biased: 
+my main measure to evaluate code collaboration was the committer identifier,
+while WebKit project stores the real author of a commit in the ChangeLog, which I ignored.
+As a future extension of the work, a ChangeLog parser should be done. Wit that, and 
+reusing the existing scripts, tools and procedures, a very useful report could be done.
+
+\end{itemize}
+
+\section{Systems Integration with Libre Software}
+
+In the course of this subject we dealt with networking, systems administration, servers configuration
+and management, version control with git, security\dots With the goal of achieving a good understanding
+of the common necessities of a systems administrator, we also went through task automation, using Bash
+scripting and Perl.
+
+As we had previously done in the Introduction to Libre Software module, we also used some
+practical work to consolidate the knowledge acquired:
+
+\begin{itemize}
+\item To better learn Bash scripting, we worked\footnote{\url{https://forge.morfeo-project.org/plugins/scmsvn/viewcvs.php/trunk/spenap/ias/scripting/?root=freeswmaster}} with regular expressions, making use
+of tools like find, sed or grep. Besides regular scripts, we also worked with daemons,
+learning about runlevels during the way.
+
+\item About Perl development, we followed\footnote{\url{https://forge.morfeo-project.org/plugins/scmsvn/viewcvs.php/trunk/spenap/ias/perl/?root=freeswmaster}} the ``Learning by doing'' motto. In a brief and interesting tutorial,
+we learnt the language basis and, in the last two exercises, we even played with Last.fm's API.
+
+\item In the networking practices, we worked\footnote{\url{https://forge.morfeo-project.org/plugins/scmsvn/viewcvs.php/trunk/spenap/ias/networking/?root=freeswmaster}} with proxies, subnets, DNS, DHCP\dots Again, we were asked
+for a good understanding of the inner workings, not only for results. 
+
+\item Finally, as a logical complement of the all the previous process, we had to learn about security. Open
+ports, running processes, different kinds of exploits, different types of securing a network... Due to the sensitive
+nature of this matter, this work results are not publicly available. 
+\end{itemize}
+
+\section{Libre Software development on Destkop/Mobile environments}
+
+During this subject we were trained in tools and technologies like those used in many Free and Open Source projects.
+From the development point of view, we learn different languages, such as C + GObject and Python, and technologies, such as
+GStreamer, libsoup, libxml, GTK+ and D-Bus, as well as git for source code versioning, Emacs as the IDE or gdb and valgrind for debugging and
+memory profiling.
+From the quality point of view, we were introduced to important concerns such as unit testing, internationalization,
+localization, accessibility or even packaging.
+
+Instead of individual practices like the ones we had previously done in other modules, this module made use of
+workshops to consolidate the knowledge acquired. Initially, a project was chosen which would use several different technologies
+--the said GStreamer, libsoup, libxml, GTK+ and D-Bus--. That way, JaMp was born.
+
+JaMp is a Jamendo client: it has a backend which accesses Jamendo using libsoup, parses Jamendo's responses with
+libxml and does multimedia playback using GStreamer. Those operations can be controlled from a frontend using GTK+, which
+communicates with the backend by means of a D-Bus API. An iterative approach was applied to develop the project: starting with
+the backend, written in C+GObject, then the D-Bus interface was created to communicate it with a PyGTK frontend, developed as the last part.
+The development was done via patches sent to a mailing list to allow peer-review. Then, the module coordinators would check and integrate
+those patches, pushing them to a \href{http://gitorious.org/mswl2010/jamp}{git repository at gitorious}. Later on, I achieved git committer status, also becoming one of the patch integrators.
+
+Besides learning those new technologies and getting familiar with git, we also made extensive use of other good practices, such as
+testing new additions or features introduced, using gdb for debugging or valgrind to check for memory leaks. We also got the project
+infrastructure updated to support internationalization and localization (commits \href{http://gitorious.org/mswl2010/jamp/commit/cdb8a34f092f8011380437fb3d56f8e5b5c773a6}{cdb8a34} and \href{http://gitorious.org/mswl2010/jamp/commit/c26310539097d9a5bae4b8a1c9d1ced5ed0c8f65}{c263105}), and checked accessibility concerns in the User Interface.
+
+While the initial target was the GNOME desktop, the project was meant to be adapted to
+Maemo devices. After a Maemo workshop, the project build was updated
+--requiring only minimal modifications as seen in commit \href{http://gitorious.org/mswl2010/jamp/commit/8e61de095265e5892bcac49f95a0def6029bbd00}{8e61de0}-- to target these devices, and a specific user
+interface was started, using PyMaemo.
+
+As a reward for the work done, we had the opportunity to present the work at the \href{http://2010.guadec.es/}{7th GUADEC-ES}. I was in charge of writing the application letter to present the work, and later I also did the
+slides and \href{http://2010.guadec.es/guadec/programa}{gave the presentation}. Not only it was nice to share the work we had done, but
+also to meet and learn what real hackers are doing.
+
+\section{Libre Software development on Web environments}
+
+In the course of the Web development module, different well-known technologies were learnt, such as PHP --with templates using Smarty--, CSS and Typo3, Java --later using Maven and the ZK framework--, Ruby on Rails, Django and JavaScript.
+
+As we had previously done in the in the Desktop \& Mobile module, to consolidate the knowledge acquired, a Java project was chosen.
+It was developed across several workshops, and made use of jUnit for unit testing, Maven for the project management and ZK
+for the User Interface. The same principles of code collaboration were used, such as peer-review sending patches to a mailing list.
+Besides, alternating those workshops there were different sessions to introduce Ruby on Rails and Django: for them, as well
+as for the initial PHP sessions, specific tasks and practices were needed\footnote{\href{https://forge.morfeo-project.org/plugins/scmsvn/viewcvs.php/trunk/spenap/dew/django/?root=freeswmaster}{Django's Receitas Galegas} and \href{https://forge.morfeo-project.org/plugins/scmsvn/viewcvs.php/trunk/spenap/dew/ror/?root=freeswmaster}{Ruby on Rails' blog}}.
+
+The project developed in this module was a Rich Internet Application for the Getting Things Done methodology\footnote{\url{http://git.igalia.com/cgi-bin/gitweb.cgi?p=riagtd.git;a=summary}}. Following the
+Model-View-Controller pattern, first the model was created for the tasks, tasks lists, users and notes. All those pieces got unit tests
+checking their functionality, and later a ZK User Interface was provided allowing users to create and manage their own lists of tasks.
+
+\section{Studies of Libre Software communities}
+
+During this module, which was held transversally to the others, several important Libre Software
+communities were studied. Android, GNOME, KDE, Debian, OpenSolaris, Maemo and the Morfeo community, all had a session. During those sessions, we
+were told how the community worked: from the way they took decisions to their infrastructures, conferences or funding. In some of them,
+practical workshops were also held: that way we got a brief introduction to Qt on KDE, to Android application development in the Android
+session, to Debian packaging on Debian's, and got to play with OpenSolaris or \href{http://ezweb.morfeo-project.org/}{EzWeb} and \href{http://mymobileweb.morfeo-project.org/}{MyMobileWeb} in the OpenSolaris and Morfeo sessions.
+
+It is worth mentioning the session we had with Carlos Guerreiro, from Nokia. He gave us a great review of Maemo's history, pointed to some
+interesting things he believes the future can bring in the mobile devices world and discussed with us his vision of {\it Free and Open Source Software}
+from the corporate point of view.
+
+%{\it eye of gnome, an\'alisis de webkit}
+%{\it Android, GNOME, KDE, Solaris}
+%{\it paqueteria, accesibilidad, internacionalizacion, pruebas de unidad}
+%{\it escritorio, movil, web}
+%{\it redes, seguridad, scripting, perl}
+%{\it modelo de negocio, revision de sistemas operativos moviles}

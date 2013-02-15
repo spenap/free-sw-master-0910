@@ -1,0 +1,327 @@
+Some of the queries available from the Melquiades project\footnote{\url{http://melquiades.flossmetrics.org/}} at Flossmetrics will be used for this work. They can be found at \cite{flossmetrics:queries} 
+
+% Consultas simples
+
+\subsubsection{Quantitative analysis}
+
+The first type of queries we will analyze are quantitative, and will give an idea about the size of this project. Queries like obtaining the number of commits, committers, files committed will be performed, with regards to the repository. The mailing list will be analyzed querying the number of mails sent, people subscribed to the mailing list and lifespan of the mailing list. Finally, the unassigned bugs mailing list will be used to check trends in identifying bugs. 
+
+\paragraph{Repository}
+
+\subparagraph{Number of commits}
+
+This query counts the number of commits in the repository.
+
+\begin{verbatim}
+SELECT COUNT(s.id)
+FROM scmlog s;
+\end{verbatim}
+
+\subparagraph{Number of committers}
+
+This query counts the number of different people committing to the repository.
+
+\begin{verbatim}
+SELECT COUNT(DISTINCT s.committer_id)
+FROM scmlog s;
+\end{verbatim}
+
+\subparagraph{Number of files committed}
+
+This query counts the number of different files handled in the repository.
+
+\begin{verbatim}
+SELECT COUNT(DISTINCT a.file_id)
+FROM actions a;
+\end{verbatim}
+
+\subparagraph{Most commits by user}
+
+This query groups commits done by the same nickname, showing the number of commits made through the lifespan of the project. It is a good indicative of the relative importance of the committers.
+
+\begin{verbatim}
+SELECT people.name, COUNT(*) AS commit_count 
+FROM people LEFT JOIN scmlog ON ( people.id = scmlog.committer_id ) 
+GROUP BY scmlog.committer_id 
+ORDER BY commit_count 
+DESC LIMIT 20;
+\end{verbatim}
+
+It should be noted that this query does not handle same users using different nicknames for committing. That will be handled with another query.
+
+\subparagraph{Most commits by user last year}
+
+This query is a modification of the previous one, considering only the commits done during the last year. It can give us some insight of the current state of the project. 
+
+\begin{verbatim}
+SELECT people.name, COUNT(*) AS commit_count 
+FROM people LEFT JOIN scmlog ON ( people.id = scmlog.committer_id ) 
+WHERE year(scmlog.date)=2009 
+GROUP BY scmlog.committer_id 
+ORDER BY commit_count 
+DESC LIMIT 20;
+\end{verbatim}
+
+Again, this query does not handle same users using different nicknames.
+
+\subparagraph{Lifespan of the repository}
+
+This query retrieves the dates of the first and last commit to the repository, and its lifespan in years.
+
+\begin{verbatim}
+SELECT YEAR(MIN(date)), YEAR(MAX(date)), 
+	YEAR(MAX(date))-YEAR(MIN(date))
+FROM scmlog;
+\end{verbatim}
+
+\paragraph{Mailing list}
+
+\subparagraph{Number of mails}
+
+This query counts the number of messages sent to the mailing list.
+
+\begin{verbatim}
+SELECT COUNT(m.message_ID)
+FROM messages m;
+\end{verbatim}
+
+\subparagraph{Number of people contributing to the mailing list}
+
+This query counts the number of people who have sent emails to the mailing list. However, people using different nicknames will be count more than once.
+
+\begin{verbatim}
+SELECT COUNT(DISTINCT p.people_ID)
+FROM messages_people p;
+\end{verbatim} 
+
+\subparagraph{Most emails by user}
+
+This query groups emails sent by the same nickname, showing the number of emails sent through the lifespan of the project. It is a good indicative of the relative importance of the poster.
+
+\begin{verbatim}
+SELECT p.username, COUNT(*) as emails 
+FROM messages_people mp LEFT JOIN messages m 
+	ON (m.message_id = mp.message_id ) 
+	LEFT JOIN people p ON (p.people_ID = mp.people_ID ) 
+GROUP BY p.username 
+ORDER BY emails DESC 
+LIMIT 20;
+\end{verbatim} 
+
+\subparagraph{Most emails by user last year}
+
+This query is a modification of the previous one, considering only the emails sent during the last year. It can give us some insight of the current state of the project.
+
+\begin{verbatim}
+SELECT p.username, COUNT(*) as emails 
+FROM messages_people mp LEFT JOIN messages m 
+	ON (m.message_id = mp.message_id ) 
+	LEFT JOIN people p ON (p.people_ID = mp.people_ID )
+WHERE YEAR(m.arrival_date) = 2009
+GROUP BY p.username 
+ORDER BY emails DESC 
+LIMIT 20;
+\end{verbatim} 
+
+\subparagraph{Users with more than one account}
+
+This query shows usernames and email addresses for those users who have more than one account participating to the list.
+
+\begin{verbatim}
+SELECT username, email_address 
+FROM people 
+WHERE username IN (
+	SELECT username 
+	FROM people 
+	GROUP BY username 
+	HAVING COUNT(*) > 1) 
+ORDER BY username;
+\end{verbatim}
+
+\subparagraph{Lifespan of the mailing list}
+
+This query retrieves the dates of the first and last commit to the mailing list, and its lifespan in years.
+\begin{verbatim}
+SELECT YEAR(MIN(m.arrival_date)), YEAR(MAX(m.arrival_date)), 
+	YEAR(MAX(m.arrival_date))-YEAR(MIN(m.arrival_date))
+FROM messages m;
+\end{verbatim}
+
+\paragraph{Unassigned bugs mailing list}
+
+\subparagraph{All-time unassigned bugs}
+
+While this query does not take into account invalid bugs (duplicated, mistakenly reported, etc.), can be used to understand the size of the project
+
+\begin{verbatim}
+SELECT COUNT(*) 
+FROM messages;
+\end{verbatim}
+
+\subsubsection{Qualitative analysis}
+
+The following queries will provide more insight about the behavior and health of the project. Number of commits by date, number of email messages by date, active and inactive users, all-time trend, last 6 months trend or companies influence to the project will be presented.
+
+\paragraph{Repository}
+
+\subparagraph{People with different usernames on the repository}
+
+When the repository queries were exposed, it was noted that people committing from different usernames would be taken into account as different people. The following query deals with it, considering they keep the username the same, just changing the domain name.
+
+\begin{verbatim}
+SELECT SUBSTRING_INDEX(p.name,"@",1) AS username, 
+COUNT(*) AS count 
+FROM people p LEFT JOIN scmlog ON (p.id = scmlog.committer_id)
+GROUP BY username 
+ORDER BY count DESC
+LIMIT 20;
+\end{verbatim}
+
+\subparagraph{Activity by date on the repository}
+
+The following query shows the monthly number of commits to the repository. It is a good indicator about the project's health, allowing to tell if it is growing, stable or declining.
+
+\begin{verbatim}
+SELECT YEAR(date) AS year, MONTH(date) AS month, COUNT(*) AS count 
+FROM scmlog
+GROUP BY year, month;
+\end{verbatim}
+
+\subparagraph{Average  monthly commits by year}
+
+The following query shows the average number of commits in a month for each of the years of the project's life.
+
+\begin{verbatim}
+SELECT g.year, AVG(g.numcommits) 
+FROM 
+	(SELECT YEAR(date) AS year, MONTH(date) AS month, 
+	COUNT(id) AS numcommits 
+	FROM scmlog 
+	GROUP BY year, month) g
+GROUP BY g.year;
+\end{verbatim}
+
+\subparagraph{Individual commits after November 2007}
+
+The following query is very interesting to display a change of policies in the repository access. Since November 2007, people committing to the repository must use a full email address instead of an user name.
+
+\begin{verbatim}
+SELECT p.name, MIN(date), MAX(date), COUNT(*) AS commits
+FROM people p LEFT JOIN scmlog l ON (p.id = l.committer_id) 
+WHERE date >= DATE('2007-11-1') 
+AND p.name NOT LIKE '%@%' 
+GROUP BY p.name 
+ORDER BY commits desc;
+\end{verbatim}
+
+\subparagraph{Activity by company on the repository}
+
+The following query displays the amount of commits done by developers affiliated to a company.
+
+\begin{verbatim}
+SELECT SUBSTRING_INDEX(people.name,"@",-1) AS company, 
+	MIN(date), MAX(date), COUNT(*) AS commits 
+FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id) 
+WHERE people.name LIKE '%@%' 
+GROUP BY company 
+ORDER BY commits DESC;
+\end{verbatim}
+
+\subparagraph{Activiy by day of week on the repository}
+
+The following query allows to tell how is the work distributed by the day of the week.
+
+\begin{verbatim}
+SELECT YEAR(date) AS year, DAYOFWEEK(date) AS day, 
+COUNT(*) AS COMMITS 
+FROM scmlog 
+GROUP BY year, day;
+\end{verbatim}
+
+\subparagraph{Commits by time of day on the repository}
+
+The following query lets us tell how is the work distributed by the time of the day.
+
+\begin{verbatim}
+SELECT YEAR(date) AS year, HOUR(date) as hour, 
+COUNT(*) AS commits
+FROM scmlog 
+GROUP BY year, hour;
+\end{verbatim}
+
+It should be noted that the commit time stored is GMT. 
+
+\paragraph{Mailing list}
+
+\subparagraph{Activity by date on the mailing list}
+
+The following query shows the monthly number of mails sent to the mailing list. It is another indicator of the project's health.
+
+\begin{verbatim}
+SELECT YEAR(arrival_date) AS year, MONTH(arrival_date) AS month, 
+	COUNT(*) AS count
+FROM messages
+GROUP BY year, month;
+\end{verbatim}
+
+\subparagraph{Activity by company on the mailing list}
+
+The following query shows the number of emails sent to the mailing list by domain name (filtering out ``gmail.com'' should limit the results to actual companies).
+
+\begin{verbatim}
+SELECT people.domain_name, COUNT(*) as emails
+FROM people LEFT JOIN messages_people 
+ON (people.people_ID = messages_people.people_ID) 
+GROUP BY people.domain_name 
+ORDER BY emails DESC 
+LIMIT 20;
+\end{verbatim}
+
+\subparagraph{Activity by day of week on the mailing list}
+
+The following query allows to tell how is the work distributed by the day of the week.
+
+\begin{verbatim}
+SELECT YEAR(date) AS year, DAYOFWEEK(messages.arrival_date) AS day, 
+COUNT(*) AS emails 
+FROM messages
+GROUP BY year, day;
+\end{verbatim}
+
+\subparagraph{Activity by time of day on the mailing list}
+
+The following query lets us tell how is the work distributed by the time of the day.
+
+\begin{verbatim}
+SELECT YEAR(date) AS year, HOUR(messages.arrival_date) AS hour, 
+COUNT(*) AS emails 
+FROM messages 
+GROUP BY year, hour;
+\end{verbatim}
+
+\paragraph{Unassigned bugs mailing list}
+
+\subparagraph{Unassigned bugs by month}
+
+The following query shows the number of bugs by month, which gives us an idea about the trends in finding bugs.
+
+\begin{verbatim}
+SELECT YEAR(arrival_date) AS year, MONTH(arrival_date) AS month, 
+COUNT(message_id) 
+FROM messages 
+GROUP BY year, month;
+\end{verbatim}
+
+\subparagraph{Average monthly unassigned bugs by year}
+
+The following query shows the average number of bugs in a month for each of the project's years.
+
+\begin{verbatim}
+SELECT g.year, AVG(g.numcommits) 
+FROM 
+	(SELECT YEAR(date) AS year, MONTH(date) AS month, 
+	COUNT(id) AS numcommits 
+	FROM scmlog 
+	GROUP BY year, month) g
+GROUP BY g.year;
+\end{verbatim}

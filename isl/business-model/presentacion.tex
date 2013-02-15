@@ -1,0 +1,622 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+%\usepackage{pgf}
+\usepackage{color}
+\usepackage{multimedia}
+\usepackage{eurosym}
+
+% Estos son los temas básicos (hay variantes 
+% en cada uno de ellos). Descomenta uno y compila.
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Copenhagen}
+%\usetheme{Dresden}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Pittsburgh}
+%\usetheme{Malmoe}
+%\usetheme{Montpellier}
+
+% Algunos temas de colores estándar (son feos!)
+%\usecolortheme{albatross}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+
+% Este comando hace los puntos redonditos
+\beamertemplateballitem
+
+% Esta opción sirve para que, cuando pasamos la
+% presentación con pausas, lo que esté oculto 
+% se vea de color muy clarito
+\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+
+% Declaración de imágenes a usar 
+\pgfdeclareimage[width=50px]{cc-license}{images/cc-by-sa.png}
+
+
+% Título, subtítulo, autor, afiliación y fecha
+\title{e-Motion: Covering your mobility needs}
+\subtitle{Business Model - Introduction to Libre Software}
+\author{Simón Pena Placer}
+\institute{Máster Software Libre, 2009-2010. A Coruña Edition}
+\date{\today}
+
+
+\begin{document}
+
+
+% Portada
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{License}
+	\begin{center}
+	\pgfuseimage{cc-license}
+	\end{center}
+This work is licensed under the Creative Commons Attribution-Share Alike 3.0 Spain License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-sa/3.0/es/} or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+\end{frame}
+
+% Índice
+\begin{frame}
+	% Con este comando se pone el título de la diapositiva
+	\frametitle{Content}
+	\tableofcontents
+\end{frame}
+
+% Con esto hacemos que al entrar en cada sección aparezca el índice
+% con la sección actual remarcada
+% También es posible la opción \AtBeginSubSection
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[current,currentsubsection]
+  \end{frame}
+}
+
+\section{Technical analysis}
+
+\subsection{Marketing and strategies}
+
+\begin{frame}
+	\frametitle{e-Motion: Covering your mobility needs}
+
+	e-Motion is an initiative aimed at providing
+	\begin{itemize}
+		\item Open Source solutions for mobile devices
+		\item Open Source solutions for mobility needs
+		\item Training 
+		\item Externalized Research \& Development.
+	\end{itemize}
+
+	\begin{block}{Mixed strategy}
+	Targeting 
+	\begin{itemize}
+		\item Small and medium business ({\it SMB}) 
+		\item End users
+	\end{itemize}
+	\end{block}	
+			
+	
+	%Mobile devices are experiencing an enormous growth nowadays. OSX mobile, WebOS, Symbian, Android and Maemo are mainstream mobile OSs, with a lot of potential users. Those devices usually have big screen size, around 3 or 3.5 inches, touch screens, and many connectivity options. While this is useful for particular users, it may also solve many small and medium businesses' problems. By doing free, ad-based Open Source applications, we plan to jump into the end user segment and get a name in the field. While we achieve it, commercial and marketing efforts must be done to get smb contracts. And once that both a name and some stable relationships are made, we should also try to provide training. Both for the smb we'd work for, so they can help themselves later on, and for individuals.
+
+% Extenderlo más en forma de informe, o reducirlo en forma de presentación  
+\end{frame}
+
+\subsection{Goals}
+
+\begin{frame}
+	\frametitle{Short-term goals}
+	
+	\begin{itemize}
+	\item Get well-known within the mobile devices companies
+	\item Build a large user base, via {\it free}, {\it low-cost} or {\it advertised-supported} applications
+	\item Sell custom solutions to {\it SMB}
+	\item Participate in major markets awards: Android\footnote{\url{http://code.google.com/intl/es-ES/android/adc/}}, 
+		iPhone\footnote{\url{http://developer.apple.com/wwdc/ada/index.html}}, 
+		Nokia\footnote{\url{http://www.callingallinnovators.com/}}
+	\item Participate in local contests, too.
+	\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Mid-term goals}
+	
+	\begin{itemize}
+	\item Increase the amount of {\it SMB} deals
+	\item Start providing paid-services to our user base, in addition to those supplied previously
+	\item Get local customers to make advertisement deals
+	\item Start providing training
+	\begin{itemize}
+	\item Workshops
+	\item Courses
+	\item Consider providing training for unemployed people via public funding
+	\end{itemize}
+	\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Long-term goals}
+	
+	\begin{itemize}
+	\item Consolidate the brand
+	\item Receive external {\it R \& D} contracts from first level companies
+	\item Provide mobile consulting support
+	\item Increase training options
+	\end{itemize}
+
+\end{frame}
+
+\subsection[Hecker's]{Relationship to Hecker's businesses models}
+
+\begin{frame}
+	\frametitle{Overview}
+	
+	It would be based on the following four schemas
+	\begin{itemize}
+	\item Open-core
+	\item Training and documentation
+	\item Research and development
+	\item (Selection and) consulting
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Open-core: Companies}
+
+	\begin{itemize}
+	\item Building extensible Open Source solutions, provide closed plugins or services on top.
+	\item Charge for implantation and support, distribute freely the business core (with a {\it copyleft} license) 
+	\item Allow other developers to build plugins for our ecosystems
+	\item Provide mixed solutions: server + desktop + mobile clients
+	\end{itemize}
+	%The first goal should be building extensible Open Source solutions for {\it SMB}. That technology should be freely available, so it could only be charged its implantation and support. However, different necessities would need different solutions, implemented via closed plugins.  
+	%Regarding to end-users, they wouldn't be charged more than symbolic amounts. For some specific applications, both free and paid solutions would be available. Some of them would be advertisement supported as opposed to ad-free, while others would be base-functionality as opposed to extended functionality. 
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Open-core: End-users}
+
+	\begin{itemize}
+	\item Charge symbolic amounts to end-users
+	\item Provide free and paid solutions to end-users
+	\item Explore different funding options
+	\begin{itemize}
+	\item Advertisement founded
+	\item Founded by other companies (e.g. a mobile client for a website)
+	\end{itemize}
+	\end{itemize}
+	%The first goal should be building extensible Open Source solutions for {\it SMB}. That technology should be freely available, so it could only be charged its implantation and support. However, different necessities would need different solutions, implemented via closed plugins.  
+	%Regarding to end-users, they wouldn't be charged more than symbolic amounts. For some specific applications, both free and paid solutions would be available. Some of them would be advertisement supported as opposed to ad-free, while others would be base-functionality as opposed to extended functionality. 
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Training and documentation}
+
+	Specialized training as one of the main goals
+	\begin{itemize}
+	\item Periodic workshops and short courses, done in-house
+	\item Take part on University programs via institutional agreements
+	\item Provide corporate training at other companies' installations
+	\item Provide subsidized courses via social funding  
+	\end{itemize}
+	%Providing specialized training should be one of the main goals. Workshops and short courses could be done by our own initiative. Getting institutional agreements could lead to provide training in University programs, subsidized via public funding to unemployed people, students or companies' employees. 
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Research and development}
+
+	Once that the company gets well-known enough, it should concur to competitive examination to get {R \& D} contracts 
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Consulting}
+
+	Once that the company would have grown enough, consulting services could be given provided that enough interest is shown.
+
+\end{frame}
+
+\subsection{Licensing options}
+
+\begin{frame}
+
+	\frametitle{Licensing concerns}
+	
+	Business model based on a Open Core approach
+	\begin{itemize}
+	\item $3^{rd}$ party components must be {\it non-copyleft}, to get extra flexibility
+	\item Solutions developed can be closed when they are plugins
+	\item Framework solutions can be {\it dual-licensed} or GPL. 
+	\end{itemize}
+	Following FSF, LGPL would be used for cloning existing, but closed, functionalities, while GPL and / or {\it dual-licensed} would be better suited at new developments  
+	%As the business model would be built based on an Open Core approach, all the components used should be {\it non-copyleft}, so that it would be possible to build extra {\it plugins} or services on top of our technology without needing to release them. \\
+	% advice would be followed, so that libraries cloning existing functionalities would be LGPL, and new ones would be GPL or {\it dual-licensed}.
+
+\end{frame}
+
+\begin{frame}{{\it Product A}}{Leisure and entertainment options}
+	\begin{itemize}
+	\item Bars, {\it caf\'es} and pubs would be targeted. 
+	\item An open framework to position leisure and night life and entertainment options, extensible to other businesses.
+	\item Based on the time of day and location, the end-user application will suggest an appropriate choice.
+	\item Previous choices would help refining the results.
+	\item The business pays a fee for each successful transaction started by the application.
+	\item Business can opt to pay an extra amount to improve their visibility. 
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{{\it Product B}}{Interactive tourist guide}
+	\begin{itemize}
+	\item Towns and cities would be targeted.
+	\item Itineraries would be presented to users visiting the town.
+	\item Towns would invest in the development and deployment.
+	\item Relatively small amounts would be charged for development, as the cost would be shared among different towns.
+	\item Fees would be charged annually to keep the information up to date.
+	\item Could be integrated with {\it Product A} so small business can appear in the itineraries.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{{\it Product C}}{Inventory management applications}
+	\begin{itemize}
+	\item Would be targeted at businesses with inventory management needs.
+	\item Development costs would be shared between businesses.
+	\item Besides deployment, support would be offered.
+	\end{itemize}
+\end{frame}
+
+
+\section{Economic analysis}
+
+\subsection{SWOT analysis}
+
+\begin{frame}
+	\frametitle{Strengths}
+	% Attributes of the person or company that are helpful to achieving the objective
+	\begin{itemize}
+	\item Company members would be experts in the area
+	\item Company members would be very motivated
+	\item Company members would be prepared to countless hours working
+	\item Company members would push themselves to the limit
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Weaknesses}
+	% Attributes of the person or company that are harmful to achieving the objective
+	\begin{itemize}
+	\item Company members would be first-time entrepreneurs
+	\item Bureaucracy would be very hard, as there wouldn't be an administrative at the beginning. 
+	\item Marketing and Sales could be a problem if the company was unable to get a good Commercial
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Opportunities}
+	% External conditions that are helpful to achieving the objective
+	\begin{itemize}
+	% Presentar gráficas de crecimiento
+	\item Plenty of potential customers, both mobile device users\footnote{Mobile internet penetration is around $20\%$ in Spain, according to \url{http://www.elmundo.es/navegante/2008/11/28/tecnologia/1227879302.html}} and {\it Small and Medium Businesses}\footnote{There are more than 12000 pubs just in A Coruña province, according to the {\it Rexistro de Empresas e Actividades Turísticas}}
+	\item Affordable technology, as some {\it smartphones} can be obtained by less than 200 unlocked, and from 0 subsidized
+	\item While there are markets quite exploded, like medium-large companies working with inventories, many {\it SMB} are still potential customers 
+		since they can afford the technology now. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Threats}
+	% External conditions which could do damage to the objective
+	\begin{itemize}
+	\item Competency: there are already other companies doing this, and more will appear
+	\item Competency (2): there are lots of applications, so visibility must be improved by any means
+	\item Creating a brand is difficult, and making a name is even more
+	\item While wining prizes and awards is a great way to build a name, it is hard and unreliable 
+	\end{itemize}
+\end{frame}
+
+\subsection{Incomings}
+
+\subsubsection*{Potential incoming and clients}
+
+\begin{frame}
+	\frametitle{Companies}
+	\begin{itemize}
+	\item Every small business: restaurants, bookshops\dots where the seller has some need for mobility is a potential client.
+	\item Possibility of training other developers.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{End-users}
+	\begin{itemize}
+	\item Every person with a {\it smartphone} or mobile device, with or without a data plan, is a potential client
+	\item People are becoming less afraid of micro-payments
+	\item Several services are highly demanded
+	\begin{itemize}
+	\item Devices synchronization: mobile phone + web + desktop. \textbf{Everything must be available everywhere}
+	\item {\it smartphones} as a payment method: stop worrying about carrying cash
+	\item People tracking systems. Children, elderly, mentally impaired\dots
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+	\frametitle{Public funding}
+	\begin{itemize}
+	\item Some of the previous options could be the target of public funding research
+	\item Entrepreneur helps and funding: Plan Avanza\footnote{\url{http://www.planavanza.es/}}
+	\item Local, National or European helps to {\it Research \& Development}
+	\item Open competitions, calls for bids and public contests: Eganet\footnote{\url{http://www.eganet.org}}	
+	\end{itemize}
+\end{frame}
+
+% End users: via paid apps and ads. 
+% SMBs: via ad-hoc solutions
+% Institutions help
+
+\begin{frame}{Product A}
+	\begin{itemize}
+	\item 15000 bars and pubs just in A Coruña province!
+	\item Getting 1\% of that market would be 150
+	\item Conservative average of 30 people a month
+	\begin{itemize}
+	\item Some businesses would get much more people
+	\item More people would go on weekends
+	\end{itemize}
+	\end{itemize}
+	\begin{center}
+	\begin{tabular}{l|r|r|r|r}
+	\textbf{Concept} & \textbf{2010} & \textbf{2011} & \textbf{2012} & \textbf{2013}\\
+	\hline
+	\textbf{Businesses} & 150 & 190 & 250 & 350 \\
+	\textbf{Monthly clients} & 30 & 38 & 50 & 68\\
+	\textbf{User fee} & 1\euro & 1\euro & 1\euro & 1\euro\\
+	\hline
+	\textbf{Monthly incomes} & 4500\euro & 7220\euro & 12500\euro & 23800\euro\\
+	\textbf{Anual incomes} & 54000\euro & 86640\euro & 150000\euro & 285600\euro\\
+	\end{tabular}		
+	\end{center}
+\end{frame}
+
+\begin{frame}{Product B}
+	\begin{itemize}
+	\item Spain has more than 400 cities with more than 20000 inhabitants.
+	\item Getting 1\% of those cities would be 4 cities in the first year.
+	\item 3000\euro for deployment, 250\euro for support. First year free, others optional
+	\item 1000\euro for updating when support is not paid
+	\end{itemize}
+	\begin{center}
+	\begin{tabular}{l|r|r|r|r}
+	\textbf{Concept} 	& \textbf{2010} 	& \textbf{2011} 	& \textbf{2012} 	& \textbf{2013}\\
+	\hline
+	\textbf{New cities}	& 3 	& 5 	& 7 	& 9\\
+	\textbf{Support} 	& 0 	& 1 	& 4 	& 7\\
+	\hline
+	\textbf{Total} 		& 9000\euro 	& 15250\euro	& 22000\euro	& 28750\euro\\
+	\end{tabular}		
+	\end{center}
+\end{frame}
+
+\begin{frame}{Product C}
+	\begin{itemize}
+	\item Considering just the first product targets would be around 15000 businesses
+	\item Considering that 1\% of the business are interested would be 150
+	\item 150\euro for deployment, 20\euro for support. First year free, others optional
+	\end{itemize}
+	\begin{center}
+	\begin{tabular}{l|r|r|r|r}
+	\textbf{Concept} 	& \textbf{2010} & \textbf{2011} & \textbf{2012} & \textbf{2013}\\
+	\hline
+	\textbf{New businesses} 	& 150 	& 220 	& 300 	& 390\\
+	\textbf{Support} 	& 0 	& 75 	& 185 	& 335\\
+	\hline
+	\textbf{Total} 		& 22500\euro & 34500\euro & 48700\euro & 65200\euro\\
+	\end{tabular}		
+	\end{center}
+\end{frame}
+
+\begin{frame}{Total Incomes}
+
+	\begin{center}
+	\begin{tabular}{l|r}
+	\textbf{Concept} & \textbf{Annual amount}\\
+	\hline
+	\textbf{Product A} & 54000\euro\\
+	\textbf{Product B} &  9000\euro\\
+	\textbf{Product C} & 22500\euro\\
+	\hline
+	\textbf{Total} & 85500\euro\\
+	\end{tabular}		
+	\end{center}	
+
+\end{frame}
+
+\subsection{Expenditures}
+
+\begin{frame}
+	\frametitle{Expenditures}
+	\begin{itemize}
+	\item Licenses
+	\begin{itemize}
+	\item Devices' stores require different kinds of fees and licenses: development, distribution\dots
+	\item Some devices must be used from specific Operative Systems. 
+	\end{itemize}
+	\item Assurance
+	\begin{itemize}
+	\item Some stores will require it
+	\item Companies will gain confidence due to it
+	\end{itemize}
+	\item Marketing and advertisement
+	\item Public fees and charges
+	\end{itemize}
+\end{frame}
+% Licenses
+% Assurances
+% Marketing - ads
+
+\subsubsection*{Human resources}
+
+\begin{frame}{Human resources}
+
+	\begin{center}
+	\begin{tabular}{l|c|r|r}
+	\textbf{Human resources} & \textbf{Number} & \textbf{Annual salary} & \textbf{Subtotal}\\
+	\hline
+	\textbf{Main developers} & 2 & 33000\euro & 66000\euro\\
+	\textbf{Marketing--Salesman} & 1 & 30000\euro & 30000\euro\\
+	\hline
+	\textbf{Total}& 3 &  & 96000\euro\\
+	\end{tabular}
+	\end{center}
+
+	\begin{center}
+	\begin{tabular}{l|c|c|c|c}
+	\textbf{Human resources} & \textbf{2010} & \textbf{2011} & \textbf{2012} & \textbf{2013}\\
+	\hline
+	\textbf{Main developers} & 2 & 2 & 3 & 4\\
+	\textbf{Marketing--Sales professional} & 1 & 2 & 2 & 2\\
+	\end{tabular}
+	\end{center}
+ 
+\end{frame}
+
+\subsubsection*{Costs \& infrastructures}
+
+\begin{frame}
+	\frametitle{Costs \& infrastructures (I)}
+	\begin{center}
+	\begin{tabular}{l|r|r}
+	\textbf{Office} & \textbf{Monthly cost} & \textbf{Annual cost}\\
+	\hline
+	\textbf{Office rent} & 400\euro & 4800\euro\\
+	\textbf{Office material} & 100\euro & 1200\euro\\
+	\hline
+	\textbf{Total} & 500\euro & 6000\euro \\
+	\end{tabular}
+	\end{center}
+\end{frame}
+	
+\begin{frame}
+	\frametitle{Costs \& infrastructures (II)}
+	\begin{center}
+	\begin{tabular}{l|r|r}
+	\textbf{IT} & \textbf{Monthly cost} & \textbf{Annual cost}\\
+	\hline
+	\textbf{Development boxes} & - & 2400\euro\\
+	\textbf{Development devices} & - & 1000\euro\\
+	\textbf{Licenses} & - & 100\euro\\	
+	\textbf{Website} & - & 150\euro\\
+	\hline
+	\textbf{Total} & - & 3650\euro\\
+	\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Costs \& infrastructures (and III)}
+	\begin{center}
+	\begin{tabular}{l|r|r}
+	\textbf{Connectivity} & \textbf{Monthly cost} & \textbf{Annual cost}\\
+	\hline
+	\textbf{Phone lines} & 80\euro & 960\euro\\
+	\textbf{Data plans} & 80\euro & 960\euro\\
+	\hline
+	\textbf{Total} & 160\euro & 1920\euro\\
+	\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Total Expenditures}
+	\begin{center}
+	\begin{tabular}{l|r}
+	\textbf{Concept} & \textbf{Cost}\\
+	\hline
+	\textbf{Human Resources} & 96000\euro\\
+	\textbf{Office} & 6000\euro\\
+	\textbf{IT} & 3650\euro\\
+	\textbf{Connectivity} & 1920\euro\\
+	\hline
+	\textbf{Total} & 107570\euro\\
+	\end{tabular}
+	\end{center}
+\end{frame}
+
+\subsection{Budgets}
+
+\subsubsection*{Budget for 2010--2013 period}
+
+\begin{frame}
+	\frametitle{Budget - 2010--2013 period}
+	
+	\begin{center}
+	\begin{tabular}{|l|r|r|r|r|}
+	\hline
+	 \textbf{Year} & 2010 & 2011 & 2012 & 2013\\
+	\hline
+	\multicolumn{5}{|l|}{\textbf{Expenditures}}\\
+	\hline 				% 107570& 144450 & 188100 & 235714
+	{\it Salaries} 			& 96000\euro & 132300\euro & 175300\euro & 222264\euro \\
+	{\it Other expenditures} 	& 11570\euro &  12150\euro &  12800\euro &  13450\euro \\
+	\hline	
+	\multicolumn{5}{|l|}{\textbf{Incomes}}\\
+	\hline 				% 85500 & 136390 & 220700 & 379550 
+	{\it Product a} 		& 54000\euro &  86640\euro & 150000\euro & 285600\euro\\
+	{\it Product b} 		&  9000\euro &  15250\euro &  22000\euro &  28750\euro\\
+	{\it Product b} 		& 22500\euro &  34500\euro &  48700\euro &  65200\euro\\
+	\hline	
+	\hline
+	\textbf{Balance} 		&\textcolor{red}{-22070\euro} & \textcolor{red}{-8060\euro} &   32600\euro & 143836\euro\\
+	\hline
+	\end{tabular}
+	\end{center}
+
+	\begin{center}
+	\small{5\% CPI has been used to update expenditures over the 4 years.}
+	\end{center}
+\end{frame}
+
+\subsection[RoI]{Return of Investment}
+
+\begin{frame}
+	\frametitle{Return of Investment}
+	\begin{center}
+	\begin{tabular}{|l|r|r|r|r|r|}
+	\hline
+	\textbf{Concept} 	& \textbf{2010} & \textbf{2011} & \textbf{2012} & \textbf{2013} & \textbf{Total}\\
+	\hline
+	\textbf{Expenditures} 	& \small{107570}\euro 	& \small{144450}\euro 	& \small{188100}\euro 	& \small{235714}\euro 	& \small{675834}\euro\\
+	\textbf{Incomes} 	& \small{85500}\euro 	& \small{136390}\euro 	& \small{220700}\euro 	& \small{379550}\euro 	& \small{821640}\euro\\
+	\hline 	
+	\hline
+	\textbf{ROI} & \textcolor{red}{-20,51\%} & \textcolor{red}{-5,57\%} & 17,33\% & 61,02\% & 21,57\%\\
+	\hline 
+	\end{tabular}
+	\end{center}
+\end{frame}
+
+% Portada
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\end{document}
+

@@ -1,0 +1,377 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{color}
+\usepackage{multimedia}
+
+\usetheme{Copenhagen}
+\beamertemplateballitem
+\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+
+% Declaración de imágenes a usar 
+\pgfdeclareimage[width=45px]{cc-license}{images/cc-by-sa.png}
+\pgfdeclareimage[width=200px]{browser-share}{images/browser-share.pdf}
+
+\pgfdeclareimage[width=160px]{sloc}{images/sloc.pdf}
+\pgfdeclareimage[width=160px]{commits-month}{images/commitsByMonth.pdf}
+\pgfdeclareimage[width=160px]{commits-day}{images/commitsByDay.pdf}
+\pgfdeclareimage[width=160px]{commits-hour}{images/commitsByHour.pdf}
+\pgfdeclareimage[width=160px]{commits-lorenz}{images/lorenz.pdf}
+
+\pgfdeclareimage[width=160px]{messages-month}{images/messagesByMonth.pdf}
+\pgfdeclareimage[width=160px]{messages-day}{images/messagesByDay.pdf}
+\pgfdeclareimage[width=160px]{messages-hour}{images/messagesByHour.pdf}
+
+\pgfdeclareimage[width=160px]{bugs-month}{images/unassignedBugsByMonth.pdf}
+
+% Título, subtítulo, autor, afiliación y fecha
+\title{Webkit Project -- A FLOSS report}
+\subtitle{Dynamics of Libre Software Communities}
+\author{Simón Pena Placer}
+\institute{Máster Software Libre, 2009-2010. A Coruña Edition}
+\date{\today}
+
+\begin{document}
+\nocite{webkit:home}
+
+% Portada
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{License}
+	\begin{center}
+	\pgfuseimage{cc-license}
+	\end{center}
+This work is licensed under the Creative Commons Attribution-Share Alike 3.0 Spain License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-sa/3.0/es/} or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+\end{frame}
+
+% Índice
+\begin{frame}
+	% Con este comando se pone el título de la diapositiva
+	\frametitle{Content}
+	\tableofcontents
+\end{frame}
+
+% Con esto hacemos que al entrar en cada sección aparezca el índice
+% con la sección actual remarcada
+% También es posible la opción \AtBeginSubSection
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[current,currentsubsection]
+  \end{frame}
+}
+
+\section{Introduction}
+\begin{frame}{Introduction (I)}{About this work}
+\begin{itemize}
+	\item<1-> An Open Source Project will be analyzed
+	\item<2-> Which one? \uncover<4->{Why?}
+	\item<3-> WebKit project was chosen
+	\item<5-> There is a technology war between web browsers
+	\begin{itemize}
+		\item<6-> Proprietary browser Internet Explorer rules the market
+		\item<7-> However, {\it times may be changing}: Open Source browsers share is growing
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction (II)}{The Browser War}
+	\begin{center}
+	\pgfuseimage{browser-share}
+	\end{center}	
+\end{frame}
+
+\begin{frame}{Introduction (II)}{Beyond the browser war}
+\begin{itemize}
+	\item The war has been extended to applications using web browser's engines.
+	\item Gecko, Mozilla's engine, is one of the most used.
+	\item WebKit, Apple's Safari engine, is experimenting an enormous growth
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction (III)}{About this work}
+\begin{itemize}
+	\item {\it Which engine is better suited to your application development?}
+	\item This work will help you decide, by analyzing the WebKit project. 
+	\item A compared analysis with Gecko is out of the scope of this work
+	\begin{itemize}
+		\item Gecko's code is too coupled with Mozilla's
+		\item It is hard to analyze it alone 
+	\end{itemize} 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction (IV)}{Some info about the WebKit project}
+\begin{itemize}
+	\item WebKit is Apple's Safari layout engine
+	\item It started from KDE's KHTML and KJS engines 
+	\item Its development has been opening more and more
+	\item Nowadays its code is under the LGPL or Apache Licenses 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction (and V)}{Projects using WebKit}
+There are many projects using WebKit. Regarding to Web browsers:
+\begin{itemize}
+	\item Safari and Safari Mobile, from Apple's OS X and iPhone OS, respectively
+	\item Google Chrome Browser and Chromium Open Source project
+	\item Android's Web browser
+	\item Nokia's S60 browser
+	\item Epiphany, who has moved from Gecko
+	\item Others\dots
+\end{itemize}
+\end{frame}
+
+\section{Methodology and tools}
+
+\begin{frame}{Methodology}
+The following project resources will be analyzed
+\begin{itemize}
+	\item Source code repository, located at \url{http://svn.webkit.org/repository/webkit/trunk/} 
+	\item Developers mailing list, located at \url{https://lists.webkit.org/pipermail/webkit-dev/}
+	\item Unassigned bugs mailing list, located at \url{https://lists.webkit.org/pipermail/webkit-unassigned/}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Tools}
+\begin{itemize}
+	\item Libresoft tools\cite{libresoft:tools} will be used
+	\begin{itemize}	
+		\item cvsanaly: \url{http://git.libresoft.es/cvsanaly/}
+		\item mlstats: \url{http://forge.morfeo-project.org/plugins/scmsvn/viewcvs.php/mailingliststat/?root=libresoft-tools}
+		\item guilty: \url{http://git.libresoft.es/guilty/}
+	\end{itemize}
+	\item Project data will be exported into a database via these tools
+	\item A series of queries will be used in order to gather relevant information
+	\item R\cite{r:citation} will be used to issue the queries and export their results
+	\item Some queries from Flossreport were also used 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Source Code Repository}
+\begin{itemize}
+	\item Most important info will be summarized: number of commits and committers, lines of code, etc.
+	\item Most active committers will be identified, both all-time and last year
+	\item Companies behind development will be identified, and its relevance evaluated
+	\item Information about trends will be extracted, different periods will be shown
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Developers Mailing List}
+\begin{itemize}
+	\item Most important info will be summarized: number of emails sent and writers, lifespan, etc.
+	\item Most active posters will be identified, both all-time and last year
+	\item Companies behind development will be identified, and its relevance evaluated
+	\item Information about trends will be extracted, different periods will be shown.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Unassigned bugs mailing list}
+\begin{itemize}
+	\item All-time number of emails received will be shown
+	\item Mailing list trends will be exposed
+\end{itemize}
+\end{frame}
+	
+\section{Results}
+
+\subsection[Repository]{Source code repository}
+
+\begin{frame}{Summary}
+\begin{table}[ht]
+	\begin{center}
+	\begin{tabular}{lr}
+	  \hline
+	 Concept & Count \\ 
+	  \hline
+	Number of commits & 44143 \\ 
+	Number of committers & 195 \\
+	Number of files under version control & 80860\\
+	Number of lines & 824955\\
+	Years of activity & 9\\
+	   \hline
+	\end{tabular}
+	\caption{Brief summary of the repository's activity}
+	\label{repo:summary}
+	\end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}{Programming language distribution}
+\begin{figure}[!hptb]
+\pgfuseimage{sloc}
+\caption{Programming language distribution}
+\label{sloccount:summary}
+\end{figure}
+\end{frame}
+
+\begin{frame}{All-time top 10 committers}
+\input{tables/top20CommitsByCommitter.tex}
+\end{frame}
+
+\begin{frame}{All-time top 10 committers -- accounts grouped}
+\input{tables/commitsByCommitterGrouped.tex}
+\end{frame}
+
+\begin{frame}{2009 top 10 committers}
+\input{tables/commitsByCommitter2009.tex}
+\end{frame}
+
+\begin{frame}{Commits by company}
+\input{tables/commitsByCompany.tex}
+\end{frame}
+
+\begin{frame}{Yearly activity}
+\begin{figure}[!hptb]
+\pgfuseimage{commits-month}
+\caption{Evolution of yearly activity in the repository}
+\label{commits:evo:monthly}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Weekly activity}
+\begin{figure}[!hptb]
+\pgfuseimage{commits-day}
+\caption{Evolution of weekly activity in the repository}
+\label{commits:evo:weekly}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Daily activity}
+\begin{figure}[!hptb]
+\pgfuseimage{commits-hour}
+\caption{Evolution of daily activity in the repository}
+\label{commits:evo:daily}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Gini coefficient and Lorenz curve}
+\begin{figure}[!hptb]
+\pgfuseimage{commits-lorenz}
+\caption{Lorenz curve for the repository. Gini coefficient is $0.706$}
+\label{commits:lorenz}
+\end{figure}
+\end{frame}
+
+\subsection[Mailing list]{Developers mailing list}
+
+\begin{frame}{Summary}
+\begin{table}[ht]
+	\begin{center}
+	\begin{tabular}{lr}
+	  \hline
+	Concept & Count \\ 
+	  \hline
+	Emails sent to the list & 9760 \\ 
+	Unique email addresses writing to the list & 1199 \\ 
+	Different user names writing to the list & 1132 \\
+	Years of activity & 5\\
+	   \hline
+	\end{tabular}
+	\caption{Brief summary of the developers' mailing list}
+	\label{dev_mls:summary}
+	\end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}{All-time top 10 posters}
+\input{tables/messagesByPosters.tex}
+\end{frame}
+
+\begin{frame}{2009 top 10 posters}
+\input{tables/messagesByPosters2009.tex}
+\end{frame}
+
+\begin{frame}{Messages by company}
+\input{tables/messagesByCompany.tex}
+\end{frame}
+
+\begin{frame}{Yearly activity}
+\begin{figure}[!hptb]
+\pgfuseimage{messages-month}
+\caption{Evolution of yearly activity in the developers' mailing list}
+\label{mails:evo:monthly}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Weekly activity}
+\begin{figure}[!hptb]
+\pgfuseimage{messages-day}
+\caption{Evolution of weekly activity in the developers' mailing list}
+\label{mails:evo:weekly}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Daily activity}
+\begin{figure}[!hptb]
+\pgfuseimage{messages-hour}
+\caption{Evolution of daily activity in the developers' mailing list}
+\label{mails:evo:daily}
+\end{figure}
+\end{frame}
+
+\subsection[Bug tracking system]{Unassigned bugs mailing list}
+
+\begin{frame}{Summary}
+\begin{block}{}
+\begin{itemize}
+	\item Each time a bug is created, a message is sent to the list
+	\item Each time a bug changes it state, another message is sent
+	\item 160342 Emails sent to the list
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Yearly activity}
+\begin{figure}[!hptb]
+\pgfuseimage{bugs-month}
+\caption{Evolution of the monthly activity on the unassigned bugs mailing list}
+\label{bugs:evo:monthly}
+\end{figure}
+\end{frame}
+
+\section{Conclusions}
+
+\begin{frame}{Conclusions}{Some work has been done...}
+An analysis about WebKit project has been performed:
+\begin{itemize}
+	\item The overall trend for the project's growth is clearly positive
+	\item Most important contributors have been identified for both the repository and mailing list
+	\item The development model has been exposed
+	\item Companies supporting the development have been identified
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusions (and II)}{...but there is still work left to do}
+\begin{itemize}
+	\item Handling WebKit project as a whole makes it harder to understand
+
+	\begin{itemize}
+		\item Analysis performed on smaller parts would be interesting	 
+	\end{itemize}
+
+	\item Different queries could show different information currently omitted
+	\item Other layouts should be taken into account for the analysis to be completed
+	\begin{itemize}
+		\item Specific tests should be designed in order to help comparing engines
+		\item Gecko engine would be the first candidate	 
+	\end{itemize}
+\end{itemize}
+\end{frame}
+	
+\bibliographystyle{plain}
+\bibliography{webkit-beamer.bib}
+
+% Portada
+\begin{frame}
+	\titlepage
+\end{frame}
+\end{document}
+

@@ -1,0 +1,17 @@
+HISTORY
+
+	Webkit was derived from KHTML in Konqueror. It's now one of the most succesfully used layout engines, in major browsers like Safari or Chrome / Chromium, KHTML, and even Epiphany, which previously used the Gecko engine.
+
+	There's some controversy: the webkit, konqueror / khtml pages and wikipedia provide a lot of info about this.
+
+DEVELOPMENT
+
+	Start with webkit, when apple opened its development. I expect to see a lot of apple-paid developers doing commits and using the lists, but also others: the opening got a lot of upstream (khtml, will be explained in the history) developers contributing to webkit.
+
+	Later, both branches merged again, so, around that date, I expect to see a lot of movement both in the mailing lists and the repos.
+
+	I expect to see commit peaks when release dates for safari were approaching. Maybe it's even possible to analyze they work flow: development, quality asurement looking for bugs, solving those bugs...
+
+	When Chrome appears, I guess some devs will move from apple to google, and the development will balance between them: at least bug fixing. Depending on each group philosophy, we can expect "waves" of bugfixes, when some work is released, or a continuous flow if that work is done in the open
+
+

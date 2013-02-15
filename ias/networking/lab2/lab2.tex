@@ -1,0 +1,61 @@
+% Definimos el estilo del documento
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+
+% Acentos y eñes
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\usepackage{hyperref}
+
+% Definimos titulo, autor, fecha.
+\title{Laboratorio II}
+\author{Simón Pena Placer}
+\date{\today}
+
+%Empieza el documento
+\begin{document}
+
+% Generamos titulo e indice de contenidos
+\maketitle
+% \tableofcontents
+
+% Empezamos capitulos
+\section{Ejercicio 1}
+
+\textbf{En el laboratorio anterior se efectuó una pregunta relacionada con la MTU de una interfaz de red. Localiza el código de la función eth\_change\_mtu en el código fuente del kernel. Lístalo y explícalo brevemente. ¿Es coherente el código con los resultados obtenidos en el laboratorio I?}
+
+La función se encuentra en {\it net/ethernet/eth.c}
+
+{\footnotesize
+\begin{verbatim}
+/**
+ * eth_change_mtu - set new MTU size
+ * @dev: network device
+ * @new_mtu: new Maximum Transfer Unit
+ *
+ * Allow changing MTU size. Needs to be overridden for devices
+ * supporting jumbo frames.
+ */
+int eth_change_mtu(struct net_device *dev, int new_mtu)
+{
+        if (new_mtu < 68 || new_mtu > ETH_DATA_LEN)
+                return -EINVAL;
+        dev->mtu = new_mtu;
+        return 0;
+}
+EXPORT_SYMBOL(eth_change_mtu);
+\end{verbatim}
+}
+
+El código recibe una estructura {\it net\_device}, que representa a la interfaz de red, y un mtu nuevo. Comprueba que ese MTU no sea inferior a 68, y no supere
+{\it ETH\_DATA\_LEN}, una constante definida en {\it include/linux/if\_ether.h} con valor 1500 (el mismo que veíamos en el laboratorio anterior usando {\it ifconfig})
+
+{\footnotesize
+\begin{verbatim}
+#define ETH_DATA_LEN    1500            /* Max. octets in payload        */
+\end{verbatim}
+}
+
+Si el MTU recibido cumple esas condiciones, se actualiza. En caso contrario, se devuelve un error (argumento inválido).
+
+\end{document}

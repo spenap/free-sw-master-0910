@@ -1,0 +1,215 @@
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+%\usepackage{pgf}
+\usepackage{color}
+\usepackage{multimedia}
+\usepackage{eurosym}
+
+% Estos son los temas b·sicos (hay variantes 
+% en cada uno de ellos). Descomenta uno y compila.
+%\usetheme{Goettingen}
+%\usetheme{Warsaw}
+\usetheme{Copenhagen}
+%\usetheme{Dresden}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Pittsburgh}
+%\usetheme{Malmoe}
+%\usetheme{Montpellier}
+
+% Algunos temas de colores est·ndar (son feos!)
+%\usecolortheme{albatross}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+
+% Este comando hace los puntos redonditos
+\beamertemplateballitem
+
+% Esta opciÛn sirve para que, cuando pasamos la
+% presentaciÛn con pausas, lo que estÈ oculto 
+% se vea de color muy clarito
+\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+
+% DeclaraciÛn de im·genes a usar 
+\pgfdeclareimage[width=50px]{cc-license}{images/cc-by-sa.png}
+
+
+% TÌtulo, subtÌtulo, autor, afiliaciÛn y fecha
+\title{Open Source Software \& Software Devices}
+\subtitle{Introduction to Libre Software}
+\author{Sim\'on Pena Placer}
+\institute{M\'aster Software Libre, 2009-2010. A Coru\~na Edition}
+\date{\today}
+
+
+\begin{document}
+
+
+% Portada
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{License}
+	\begin{center}
+	\pgfuseimage{cc-license}
+	\end{center}
+This work is licensed under the Creative Commons Attribution-Share Alike 3.0 Spain License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-sa/3.0/es/} or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+\end{frame}
+
+% Õndice
+\begin{frame}
+	% Con este comando se pone el tÌtulo de la diapositiva
+	\frametitle{Content}
+	\tableofcontents
+\end{frame}
+
+% Con esto hacemos que al entrar en cada secciÛn aparezca el Ìndice
+% con la secciÛn actual remarcada
+% TambiÈn es posible la opciÛn \AtBeginSubSection
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[current,currentsubsection]
+  \end{frame}
+}
+
+\section{Introduction}
+
+\begin{frame}{Introduction}
+\begin{itemize}
+\item This work is a small review of the current state of the art regarding Open Source-related Operating Systems for mobile devices
+\item Operating Systems will be chosen both for their market share or their relevance
+\end{itemize}
+\end{frame}
+
+\section{Mobile Operating Systems}
+
+\begin{frame}{Symbian}
+\begin{itemize}
+\item Symbian is still the most used mobile operating system
+\item Since the iPhone launch, Symbian is losing track
+\item It was the OS of choice for Nokia, Motorola, Sony Ericsson, Siemens\dots
+\begin{itemize}
+\item Core development was centralized
+\item User Interfaces were adapted and customized for each manufacturer.
+\end{itemize}
+\item It is currently being opened under the Symbian Fundation
+\begin{itemize}
+\item Code will be available during the process royalty free for members
+\item It will be free for all once the process is over
+\item Their selected license will be the Eclipse Public License
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Android}
+\begin{itemize}
+\item Software stack for mobile devices including operating system, middleware and key applications
+\item Initially developed by Google, later by the Open Handset Alliance
+\item Licensed under the Apache Software License
+\item Some criticism exists due to the possibility for manufacturers to hold their changes and modifications due to the license chosen
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Maemo}
+\begin{itemize}
+\item Software platform mostly based on open source code
+\item Developed in collaboration with projects such as the LInux kernel, Debian, Gnome and many others
+\item Mostly a GNU / Linux distribution with closed proprietary software from Nokia and a phone stack
+\item While not being used in the current version, plans are that Nokia and Intel will start using oFono, and open source telephony stack
+\item Derivative project Mer aims to provide a fully open source system
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Moblin}
+\begin{itemize}
+\item Targets mobile devices such as netbooks and MIDs 
+\item Built around the Intel Atom Processor
+\item Designed to minimize boot times and power consumption.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{WebOS}
+\begin{itemize}
+\item Based on a Linux 2.6 kernel
+\item Runs several open source components
+\item Applies a proprietary layer over them, referred to as the Core OS
+\item Based on WebKit
+\item Development done with HTML, CSS and JavaScript
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Openmoko}
+\begin{itemize}
+\item Designed to provide end users with the ability to modify the operating system and software stack
+\item Originally focused at providing both hardware and software
+\item Focused on software nowadays
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Bada}
+\begin{itemize}
+\item New smartphone operating system from Samsung
+\item Targeted at low-cost phones
+\item Uses terms like ``open'' and ``free'' but no info has been shown yet
+\item It is said to be able to run on Linux kernels
+\item Samsung is still present in the Symbian Foundation, LiMo Foundation and the Open Handset Alliance
+\end{itemize}
+\end{frame}
+
+\begin{frame}{iPhone OS}
+\begin{itemize}
+\item Built on top of the Darwing Core (Open Source BSD kernel), unavailable for other platforms than x86
+\item Interesting relationship with Open Source third party applications
+\begin{itemize}
+\item Apple SDK's terms of use put a NDA on the APIs, limiting developers ability to release code
+\item NDA was later removed
+\item Apple's private keys for signing still put problems to licenses like GPLv3
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{LiMo}
+\begin{itemize}
+\item LiMo Foundation is an industry consortium using a Linux-based operating system.
+\item Platform consisting of Member contributions and Open Source technologies
+\item Open development, but conditioned to the OEM decisions
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mobilinux}
+\begin{itemize}
+\item Operating system and development platform.
+\item Seems a low level layer to build under LiMo, Android, other systems.
+\end{itemize}
+\end{frame}
+
+\section{Conclusions}
+
+\begin{frame}{Conclusions}
+
+\begin{itemize}
+\item Open Source Software is getting a great push in the Mobile Devices Market
+\item Linux Kernel is one of the most used solutions, used in WebOS, Android, Maemo, OpenMoko, LiMo, Mobilinux
+\item Shared development costs is one of the main reasons to use Open Source solutions
+\item Proprietary solutions are still used for specific components.
+\item Openness during development is not likely to affect and benefit end-users
+\end{itemize}
+
+\end{frame}
+
+% Portada
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\end{document}
+

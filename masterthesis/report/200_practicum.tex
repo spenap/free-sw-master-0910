@@ -1,0 +1,332 @@
+In this chapter, the master's {\it practicum} work in the Grilo project at Igalia
+will be described. First, a brief introduction about the project and the objectives set
+by the Igalia staff will be provided, also including those requirements dictated
+by the nature of the project.
+
+After that, the actual work done on the project will be presented. Its
+prerequisites --such as technologies used, other projects needed,
+compilation issues\dots--, the difficulties found during the work --and their
+solutions or workarounds, when possible--, and contributions originated in its scope
+will be described.
+
+Finally, conclusions and results for the work will be presented. Master's subjects
+will be linked to the technologies, tools and projects used, and new possible improvements 
+--and potential issues--  will be identified.
+
+\section{Introduction}
+
+Grilo\footnote{\url{http://live.gnome.org/Grilo}} is a framework focused on making media discovery and browsing easy for application developers. It provides
+a high-level API that abstracts the differences between different providers, such as Youtube, Jamendo, Shoutcast,
+Vimeo, etc. It is licensed under the LGPL and developed in C using GLib and GObject, and it is already a GNOME project.
+
+As the practicum work for the master, collaboration was to be done in the following areas:
+\begin{itemize}
+\item Improve Grilo's binding support, by
+\begin{itemize}
+\item Studying the mechanisms for the automatic binding generation using GObject Introspection
+\item Analyze Grilo's APIs and their conformity with the automatic binding generation infrastructure. Suggest improvements.
+\item Perform the actual improvements on the introspection support
+\item Test generated bindings
+\end{itemize}
+\item General improvements in the framework and plugins system, by
+\begin{itemize}
+\item Analyzing and fixing defects
+\item Design and development of new features
+\end{itemize}
+\end{itemize}
+
+The work being developed should be done as a real Free Software project. As a result,
+the tools and methods employed had to be those common in this type of projects,
+such as mailing lists, bugzilla, wiki, git\dots, being the communications always in English. The
+preferred communication channel would be the mailing list, but the IRC would be used for real-time communications.
+
+\section{Work done}
+
+There were two main tasks for the {\it practicum}: on the one hand, there was the
+binding support. On the other, more general improvements or fixes. However, many
+of those general improvements were made during the course of the enhancement of
+the bindings support.
+
+\subsection{Getting started with Grilo}
+
+In order to feel comfortable enough with Grilo to being able to collaborate to it,
+I started reading its documentation. It provided a good general overview of the project,
+detailed its API, and offered some code examples ready to be compiled.
+
+Going through its documentation, I was able to contribute my first patches: fixing
+some typos or mistakes found in the documentation, adding some configuration lines
+to the examples so they could work and small thinks like that.
+
+Thanks to those patches, I started becoming familiar with the code, its style and
+organization, and the build process.
+
+\subsection{Bindings support. What is GObject Introspection?}
+
+Once that I felt I was ready to deal with Grilo, I started reading documentation
+about binding generation, in general, and GObject Introspection, in particular.
+
+It makes sense to build many kinds of applications using, at least, two different
+levels and languages. On one side, there are those based on C + GObject: usually
+they have great performances, being good for graphics, multimedia, and low level tasks
+in general. On the other side, there are those with a managed, with
+garbage collection, runtime, such as JavaScript, Python, Java, .NET\dots They are
+better suited for application logic such as configuration, layout, dialogs and/or
+tasks where performance is not that important.
+
+It is important, then, to allow developers chose their language of choice. Not only
+they will be more productive: they will be happier. While the GNOME platform has
+been historically quite binding friendly, writing bindings usually involves an important
+amount of job to be done by hand. At the same time, the amount of resources devoted
+to a given project are limited, so having a developer occupy his time writing bindings
+will reduce the amount of time he can spend adding new features or fixing bugs, for
+example.
+
+As a consequence, the GObject Introspection project was born\footnote{\url{http://live.gnome.org/GObjectIntrospection}}. With one of its major goals
+being to become a convenient bridge between the low-level, high-performance world and
+the high-level, ``less-efficient'' one, GObject Introspection solves the problem
+of writing bindings by hand by putting all the needed {\it metadata} inside
+the GObject library itself, using annotations in the comments. This will lead to less
+duplicate work from binding authors, and a more reliable experience for binding consumers.
+Additionally, because the introspection build process will occur inside the GObject libraries
+themselves, a goal is to encourage GObject authors to consider shaping their APIs to be more
+binding friendly from the start, rather than as an afterthought.
+
+\subsection[How do automatic bindings work?]{How do automatic bindings with GObject Introspection work?}
+
+In order to benefit from automatic bindings using GObject Introspection, a three step process must
+be followed.
+\begin{enumerate}
+\item \textbf{In the library developer side:} First, a C + GObject library must be annotated
+with some metadata --while there are some default assumptions, some annotations have to be made.
+
+\item \textbf{In the GObject Introspection side:} The GObject Introspection scanner tool must
+scan the library to extract the metadata and generate a {\it gir} file: an XML containing
+type information, memory allocation and more. Then, the GObject Introspection compiler
+will compile the {\it gir} file to generate a typelib.
+
+\item \textbf{In the target language side:} The language wanting to use that introspection
+information must provide a way to load that typelib.
+\end{enumerate}
+
+Since GObject Introspection is quite a young project, there are still few languages using it. JavaScript, from both
+Seed and Gjs, or Python, via PyGObject, are two languages with a relatively mature support. Others, such as Lua, are
+still being developed.
+
+It is worth noting that GTK-Doc should also understand all the annotations used in
+GObject Introspection --if not, it is a bug--, so they get recognized when scanning
+a library.
+
+\subsection{Bringing automatic bindings to Grilo}
+
+Once that I knew how automatic bindings worked, I started to analyze which things
+were missing in order to make Grilo automatically generate introspection bindings.
+
+\subsubsection{Initial status}
+
+Build support for GObject Introspection in Grilo had already been added by the time
+I started contributing to it. There was also a small test case, written in JavaScript,
+which made use of the automatic bindings. However, due to some previous changes in
+the way Grilo's metadata keys were stored, the test did not work.
+
+\subsubsection{The ParamSpec issue}
+
+These keys had been previously just constants, defined as integers or strings. However,
+since an important feature for Grilo was to allow developers define their own metadata
+keys, an approach using GObject's ParamSpecs --aliased as Grl.KeyIDs--
+had been introduced. While those ParamSpecs served their purpose just fine, 
+their were totally {\it GObject Introspection unfriendly}. First it was needed
+to annotate each of them as a ParamSpec, as the aliased type would not work at the
+gir and typelib level. Then, it became clear that Gjs did not support them, and
+probably would not in the short term.
+
+The workaround chosen was to annotate those keys as {\it uints}: with that modification,
+that simple JavaScript test worked fine. As the binding consumer is not required to know
+that KeyIDs are ParamSpecs --he is even discouraged, since that is a specific implementation
+detail-- and all the methods returning KeyIDs or receiving KeyIDs are ParamSpec-agnostic,
+that workaround should work fine. However, it relies on being able to store a pointer
+in an {\it uint}: in platforms when that assumption is wrong, it would fail.
+
+\subsubsection{Going upstream}
+
+After some discussion in the mailing list, I was suggested to use upstream versions
+for GObject Introspection and Gjs: maybe in the latest versions the issues we were
+experiencing would be solved. Until then, I had been using Ubuntu Lucid Lynx's packages,
+which became quickly outdated when dealing with projects so young and fast-paced.
+In order to start using the upstream versions, I set up JHBuild:
+
+{\it JHBuild is a tool designed to ease building collections of source packages,
+called ``modules''. JHBuild uses ``module set'' files to describe the modules available
+to build. The ``module set'' files include dependency information that allows JHBuild
+to discover what modules need to be built and in what order.}
+
+By using JHBuild with the GNOME 3 ``module set'', I started using GObject Introspection and
+Gjs from upstream. However, since that did not fix the ParamSpec issue, I decided to test
+the bindings from another language: Python.
+
+\subsubsection{Using Grilo from Python: PyGObject}
+
+Getting JHBuild to build latest PyGObject was a bit tricky: the documentation was
+outdated, and pointed to a no longer valid PyGI module. With Javier Jard\'on and Nacho's
+(Ignacio Casal) help, I realized that only PyGObject was necessary.
+
+As PyGObject did support ParamSpecs, it became the {\it official} language for testing
+the bindings. I then started to annotate all the methods in Grilo, one by one. In order
+to be able to check the annotations and functionality of the bindings, I cloned
+an existing test application --grilo-test-ui-- from C to Python, using PyGObject.
+
+\subsubsection{Unit testing from Python}
+
+Although writing a PyGObject clone for grilo-test-ui proved very useful, to identify
+existing issues in some of the methods more commonly used, there was a lot of code
+unchecked. To achieve a better coverage, I suggested the creation of unit tests in
+Python, using PyGObject to invoke Grilo's methods.
+
+These unit tests had a double effect: not only they were useful to identify parts
+of the code not introspectable or presenting wrong annotations --which can lead
+to wrong {\it free}s and / or crashes-- but also to test the library's behavior.
+Right now, Python unit tests are fully integrated in the project's build --provided
+that GObject Introspection support is found in the target system--, covering Grilo's
+most common methods, and having led to the identification of several bugs.
+
+\subsubsection{Current status of the bindings}
+
+Right now, save for three functions non-introspectable, all the API can be accessed
+via GObject Introspection from Python. In Gjs, as ParamSpecs are still unsupported, only the
+API which does not use them works. However, when the ParamSpecs are annotated as {\it uints},
+Gjs can achieve the same degree of functionality as Python.
+
+Currently, a Gjs' branch has been suggested, containing a clone of the C application grl-inspect,
+which provides an overview of the currently available plugins, and allows checking JavaScript's
+support of the bindings in a more complex way than the initial test case.
+While that branch has not been pushed to the git repository yet, it is available\footnote{\url{http://mail.gnome.org/archives/grilo-list/2010-October/msg00011.html}} in
+the mailing list archives.
+
+\subsection{Other improvements and fixes}
+
+Besides the work done on the annotation field, several other improvements were made, such as
+code rewritings, build fixes or improvements or documentation enhancements. Among them,
+it is worth mentioning Vala's metadata improvements, needed for generating its binding, or
+the rewriting of the {\it get\_sources} method, so it could return a GList instead of an array,
+not supported in Gjs.
+
+The full list of contributions to the Grilo core is as follows:
+\begin{verbatim}
+Simon Pena (64):
+      doc: Added grl_init call
+      doc: Minor corrections
+      doc: Corrected obsolete tags
+      core: Replaced grl-config defines with functions
+      core: Replaced grl-media defines with functions
+      core: Replaced grl-media-video defines with functions
+      core: Replaced grl-media-image defines with functions
+      core: Replaced grl-media-audio defines with functions
+      annotations: Annotated grilo.c
+      annotations: Annotated grl-plugin-registry
+      annotations: Annotated grl-media-source
+      annotations: Annotated grl-media-source callbacks
+      core: Make grl-metadata-key more introspection friendly
+      annotations: Annotated grl-multiple
+      annotations: Annotated grl-data
+      python: Cloned grilo-test-ui
+      core: remove uneed frees
+      core: removed wrong free at GrlMediaPlugin finalize()
+      annotations: Fixed 'lookup_source' annotation
+      core: Remove value destroy_func from the plugins' hash table
+      core: check for 'key-depends' implementation
+      annotations: Added missing colon
+      annotations: Replaced GObject.ParamSpec* with GObject.ParamSpec
+      annotations: Replaced Grl.Media* with Grl.Media
+      annotations: Replaced Grl.MediaSource* with Grl.MediaSource
+      annotations: Skipped non introspectable functions
+      core: Made GrlPluginInfo introspectable
+      annotations: Added missing transfer modes
+      annotations: Annotated grl-metadata-source
+      annotations: Annotated metadata_source cb GErrors as uints
+      annotations: Fixed 'get_info_keys' annotation
+      core: Replaced grl-media-plugin defines with functions
+      annotations: Annotated 'register_metadata_key'
+      annotations: Removed unnecessary annotations
+      annotations: Media in cb is transfer full
+      annotations: Fixed grl_data_get_keys transfer mode
+      doc: Updated examples to use new log system
+      core: Make get_sources return a GList
+      core: Make get_sources_by_operations return a GList
+      annotations: Fixed grl_init annotations
+      doc: Improve GrlMediaAudio documentation
+      doc: Improve GrlMediaImage documentation
+      doc: Improve GrlMedia documentation
+      doc: Add GrlLog documentation
+      doc: Fix GrlMediaVideo typo
+      doc: Skip GrlDataSync
+      doc: Added GrlError documentation
+      doc: Fix GrlUtil documentation
+      build: Define major, minor and micro version vars
+      build: Fixed gir build rules
+      vala: Improved metadata
+      core: Moved tests infrastructure to /tests
+      core: Updated infrastructure to support python tests
+      tests: Command line arguments can be passed to testrunner
+      tests: Tested the PluginRegistry class using GI
+      tests: Tested the PluginMedia class using GI
+      tests: Tested the MetadataSource class using GI
+      tests: Removed setUp/tearDown code in python tests
+      annotations: removed transfer mode for 'in' args
+      annotations: Fixed transfer modes in grl-metadata-source
+      core: reworked GrlMetadataSource's filter methods
+      tests: updated GrlMetadataSource filter tests
+      annotations: fixed GrlConfig annotations
+      python: added plugin configuration to grilo-test-ui
+\end{verbatim}
+
+There were also minor contributions to the Grilo plugins
+
+\begin{verbatim}
+Simon Pena (4):
+      vimeo: Updated calls to grl-media-video
+      flickr: Removed const qualifier from grl-config
+      bookmarks: Updated call to grl-media
+      filesystem: Updated call to grl-media
+\end{verbatim}
+
+and to GTK-Doc (\href{http://git.gnome.org/browse/gtk-doc/commit/?id=50636742ee71fabd6fc306c4da53d2c431497f44}{Fix 'scope notified' annotation}), GObject Introspection
+(\href{http://git.gnome.org/browse/gobject-introspection/commit/?id=ac29006d8481b8c8900672cfae834c12712ff2e6}{gio-2.0.c: Add missing annotations}) and PyGObject
+(\href{http://git.gnome.org/browse/pygobject/commit/?id=28ed01c34c503cfb4f14fe7af7912060ca70aba6}{Don't check the inner type when comparing gpointers}).
+During this work, several bugs were filed, all of them being \href{https://bugzilla.gnome.org/buglist.cgi?bug_status=RESOLVED,VERIFIED,CLOSED&emailreporter1=1&emailtype1=exact&email1=spenap%40gmail.com}{fixed} save
+for the \href{https://bugzilla.gnome.org/show_bug.cgi?id=626047}{ParamSpec one} in Gjs.
+
+\section{Conclusions and future work}
+
+Automatic bindings using GObject Introspection are a really promising project. The
+number of possibilities they can offer is just huge --just imagine developing a
+Django Web Application which could use, natively, all the plugins and
+functionality that Grilo offers!
+
+However, while GObject Introspection is really interesting, it still feels young. The
+number of languages offering good support for it is still small and there are still
+important changes in its behaviour: recently, the default {\it transfer mode} stopped
+being {\it full}, requiring library developers to explicit state it. As a result,
+many projects stopped offering automatic bindings. While the decision is easy to
+understand (requiring library developers to state which {\it transfer mode} they need
+guarantees that there will not be leaks nor wrong frees), it serves as an example of
+how unstable the project is at the moment.
+
+With regards to collaborating on a Free Software project, contributing to Grilo has
+been a great experience. I became familiar with the tools like gdb, to be able to debug
+both C + GObject code or to locate a estrange crash in Python invoking Grilo methods;
+valgrind, to check if I was having a leak due to incorrectly freeing memory; JHBuild, to
+build a GNOME environment in a sandbox, using upstream versions; git, to create branches,
+apply patches, check the history, locate an error thanks to {\it git bisect}\dots
+
+I also felt comfortable with languages I had not used too much, such as JavaScript or Python,
+learning about unit testing with the latter, and continued learning about C + GObject.
+
+Improving Grilo's support of GObject Introspection also gave me the chance to keep
+an eye on other interesting projects such as PyGObject, Gjs or GTK-Doc. I had the opportunity
+to find and file bugs on them, sometimes even providing patches.
+
+As for the future work, while it should be important to keep the GObject Introspection support
+updated (checking changes related to default parameters or new features), it would also be
+interesting to provide new plugins. Improving the existing Python unit tests would be useful
+and creating Gjs' ones would allow a better evaluation of that language's support. Seed's
+matureness, compared to Gjs, should be checked, and a better and larger test in Vala should
+definitely be added, too.

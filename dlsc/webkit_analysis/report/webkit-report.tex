@@ -1,0 +1,143 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{verbatim} 
+\usepackage{graphicx}
+\newcommand{\paginaenblanco}{\mbox{}\thispagestyle{empty}\newpage}
+
+% Definimos titulo, autor, fecha.
+\title{WebKit Project -- A FLOSS report}
+\author{Sim\'on Pena Placer}
+\date{\today}
+
+%Empieza el documento
+\begin{document}
+
+% Generamos titulo e indice de contenidos
+\maketitle
+\tableofcontents
+\newpage
+\mbox{}\vfill
+This work is licensed under the Creative Commons Attribution-Share Alike 3.0 Spain License. To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-sa/3.0/es/} or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+\newpage
+
+\section{Introduction}
+\nocite{webkit:home}
+
+% Comentar qué vamos a hacer
+Nowadays, web browsers are among the most used software applications. Even if the leader application in the field is still Internet Explorer, the Open Source browser Mozilla Firefox has experienced an important growth\cite{wiki:browser_usage}. Mozilla's layout engine\footnote{A layout engine, or rendering engine, is software that takes marked up content (such as HTML, XML, image files, etc.) and formatting information (such as CSS, XSL, etc.) and displays the formatted content on the screen.}, Gecko, is used in many other projects, but another competitor has entered the field: WebKit. WebKit is the Open Source layout engine for Apple's browser Safari but, thanks to being Open Source, it is being used in many different projects with important support from large companies (like said Apple, Google or Nokia).
+
+This work was first thought of as a comparison between Gecko and WebKit's engines, but soon it was clear that analyzing both projects at the same time would be too ambitious. Besides of the fact that both are big projects, Gecko is currently too coupled to the rest of the browser, making its analysis difficult to achieve. Due to that, this work will be focused in analyzing WebKit project. 
+
+This analysis will be structured in the following way
+\begin{itemize}
+\item First, the WebKit Project will be presented and some information about its goals and history will be shown. 
+\item After that, we will propose a set of objectives this work will try to achieve.
+\item The tools, techniques and tests used to gather all the information needed about the project will be explained. 
+\item Results will be provided for the actions performed in the previous step.
+\item The results obtained will be explained, and final conclusions will be exposed.
+\end{itemize}
+
+\subsection{WebKit: the project}
+
+WebKit is a layout engine designed to allow web browsers to render web pages. The WebKit engine provides a set of classes to display web content in windows, and implements browser features such as following links when clicked by the user, managing a back-forward list, and managing a history of pages recently visited. WebKit was originally created in order to be used as the layout engine for Safari, Apple's Web browser, being derived from Konqueror browser's KHTML software library.
+
+WebKit's WebCore and JavaScriptCore components are available under the GNU Lesser General Public License, and the rest of WebKit is available under a BSD-style license\cite{webkit:devcon, webkit:home, wiki:webkit}.
+
+\subsubsection{Goals}
+
+WebKit project goals are \textbf{compatibility}, \textbf{standards compliance}, \textbf{stability}, \textbf{performance}, \textbf{security}, \textbf{portability}, \textbf{usability} and \textbf{hackability}. 
+
+Keeping the project Open Source is also a goal, but with BSD-like and LGPL-like licenses to remain usable for free and proprietary applications. 
+
+Finally, while project's primary goal is rendering content deployed on the Web, it is considered important being able to serve as a general-purpose display and interaction engine\cite{webkit:goals}.
+
+\subsubsection{Project's History}
+
+WebKit project's history went through different stages, getting progressively more collaborative. 
+
+The code initially created for the KDE Projects KHTML and KJS in 1998, was forked in 2002 to create the frameworks WebCore and JavaScriptCore, respectively. There were no public contributions for a year, until 2003, when the first code changes were released\cite{kde:release_mail}. 
+
+From 2003 to 2005 Apple and KDE collaboration was difficult, as code interchange was done in large amounts, and sometimes it was even necessary to sign NDA agreements to see Apple's code.
+
+However, in 2005 Apple's WebKit development changed. The WebKit team started reversing Apple-specific changes for platform-independent ones, a CVS repository was opened, and KHTML-WebKit collaboration increased. Eventually, on June 7, 2005 Apple open sourced WebKit, opening access to both repository and bug tracking system.
+
+Since then, collaboration with other parties has been increasing, and it is even speculated that KDE team could move from KHTML to WebKit.
+
+See \cite{wiki:webkit} for more information about WebKit's history.
+\subsubsection{Projects using WebKit}
+
+Among the projects using WebKit, there are Apple's Safari, Apple's Mail, Google Chrome / Chromium, Adium, Epiphany and many others. See \cite{webkit:projects} for a list of projects using WebKit, and \cite{webkit:gtkprojects} for a list of projects using WebKit/GTK+.
+
+\subsection{Motivations}
+
+This work is meant to be a revision of the WebKit Project. The project health will be studied, the main, most important developers will be identified and the companies that support them will be presented, too. General information about the project itself will be exposed: project size, number of members --both in the mailing list and in the repository--, number of commits\dots
+
+We will also try to achieve more specific information: identify the onion model in the project, look at code groups evolution, track developers moving between different companies, and point out how derivative projects may influence WebKit --due to an increase in the number of bugs reported, in the amount of commits or other situations.  
+
+Finally, temporal analysis will be performed to search for existing trends, answering the following questions:
+\begin{itemize}
+\item Is the project increasing its activity? 
+\item Is the number of developers increasing or decreasing?
+\item How is the work balanced between the developers?
+\end{itemize}
+
+\section{Methodology}
+
+For the analysis of this project, we will take into account the following information sources:
+\begin{itemize}
+\item Repository information, extracted from the commit logs.
+\item Developer mailing list information, extracted from the mailing list archive.
+\item Unassigned bugs mailing list information, extracted from the mailing list archive\footnote{Trying to get the information from the project's Bugzilla was unsuccessful, as the bugs's date could not be extracted.}
+\item Code lines ownership information, extracted from the SCM tool.
+\end{itemize}
+
+\subsection{Tools used}
+
+To gather that information, the following LibreSoft tools were used: guilty\footnote{\url{http://git.libresoft.es/guilty/}}, mlstats\footnote{\url{https://svn.forge.morfeo-project.org/libresoft-tools/mailingliststat/}}, and cvsanaly\footnote{\url{http://git.libresoft.es/cvsanaly/}}. For the full set of LibreSoft tools, see \cite{libresoft:tools}
+
+\begin{description}
+\item[guilty] File-oriented tool that retrieves information about line changes, allowing to identify who owns a line of code, which changes have been made and so on. All the information extracted is stored in a database.
+\item[mlstats] This tool stores mbox-formatted mailing lists information in a MySQL database.
+\item[cvsanaly] This tool stores the log from a SCM (CVS, SVN or Git) in a MySQL database.
+\end{description}
+
+More information about the tools and how they work can be found at \cite{melquiades:libresoft_tools, moodle:libresoft_tools}.
+
+R\cite{r:citation} was used to access the databases generated with the tools exposed above, generating reports and graphs to be included from this report.  
+
+\subsection{Webkit data sources}
+
+The resources used in this work were updated last time on January 10, 2010. The following data sources were used: 
+\begin{itemize}
+\item Subversion repository, located at \url{http://svn.webkit.org/repository/webkit/trunk/}
+\item Developers mailing list, located at \url{https://lists.webkit.org/pipermail/webkit-dev/}
+\item Unassigned bugs mailing list, located at \url{https://lists.webkit.org/pipermail/webkit-unassigned/}.
+\end{itemize}
+
+\subsection{Queries}
+
+\input{queries.tex}
+
+\section{Results}
+
+\input{results.tex}
+
+\section{Conclusions and future research}
+
+\input{conclusions.tex}
+
+% Apéndices
+
+% Queries?? (in SQL, previous were human-readable?)
+
+% Consultas simples 
+
+% Consultas detalladas
+\paginaenblanco
+\bibliographystyle{plain}
+\bibliography{webkit-report.bib}
+\end{document}

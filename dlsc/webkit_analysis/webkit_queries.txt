@@ -1,0 +1,76 @@
+#Consultas
+
+#Top 20 committers:
+
+SELECT people.name, people.email, MIN(date) AS start_date, MAX(date) AS end_date, COUNT(*) AS commit_count
+FROM people LEFT JOIN scmlog ON ( people.id = scmlog.committer_id )
+GROUP BY scmlog.committer_id
+ORDER BY commit_count DESC
+LIMIT 20;
+
+#Total commits:
+SELECT COUNT(*) AS total_commits
+FROM scmlog;
+
+#Top 20 posters:
+SELECT people.name, people.email_address, MIN(arrival_date) AS start_date, MAX(arrival_date) AS end_date, COUNT(*) AS email_count
+FROM people LEFT JOIN messages ON ( people.email_address = messages.author_email_address )
+GROUP BY messages.author_email_address
+ORDER BY email_count DESC
+LIMIT 20;
+
+#Total posts:
+SELECT COUNT(*) AS total_emails
+FROM messages;
+
+#Top 20 coders:
+SELECT authors.name, MIN(date) AS start_date, MAX(date) as end_date, COUNT(*) AS loc_count
+FROM authors LEFT JOIN blame ON ( authors.id = blame.author_id )
+GROUP BY blame.author_id
+ORDER BY loc_count DESC
+LIMIT 20;
+
+#Total lines of code:
+SELECT COUNT(*) AS total_loc
+FROM blame;
+
+#Longest lifespan at repository:
+
+#Longest lifespan at mailing list: 
+
+
+SELECT people.*, COUNT(*) as emails 
+FROM people LEFT JOIN messages ON (people.email_address = messages.author_email_address)
+GROUP BY people.email_address 
+ORDER BY emails DESC
+LIMIT 20;
+
+SELECT people.domain_name, COUNT(*) as emails FROM people LEFT JOIN messages ON (people.email_address = messages.author_email_address) GROUP BY people.domain_name  ORDER BY emails DESC LIMIT 20;
+
+SELECT people.*, COUNT(*) as emails FROM people LEFT JOIN messages ON (people.email_address = messages.author_email_address) WHERE domain_name LIKE '%apple.com' GROUP BY people.email_address ORDER BY emails DESC LIMIT 20;
+
+SELECT people.*, COUNT(*) as emails FROM people LEFT JOIN messages ON (people.email_address = messages.author_email_address) WHERE domain_name LIKE '%chromium.org' GROUP BY people.email_address ORDER BY emails DESC LIMIT 20;
+
+SELECT people.*, COUNT(*) as emails FROM people LEFT JOIN messages ON (people.email_address = messages.author_email_address) WHERE domain_name LIKE '%google.com' GROUP BY people.email_address ORDER BY emails DESC LIMIT 20;
+
+SELECT people.domain_name, COUNT(*) as count FROM people GROUP BY people.domain_name ORDER BY count DESC LIMIT 20;
+
+select substr(name,instr(name,'@')+1) as company, count(*) as count from people where name like '%@%.%' group by company order by count desc;
+
+SELECT people.name, COUNT(*) AS commits FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id ) GROUP BY people.id  ORDER BY commits DESC LIMIT 20;
+
+SELECT people.name, COUNT(*) AS commits FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id ) WHERE name LIKE '%darin%' GROUP BY people.id ORDER BY commits DESC LIMIT 20;
+
+SELECT people.name, MIN(scmlog.date) as start, MAX(scmlog.date) as end, COUNT(*) AS commits FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id ) WHERE name LIKE '%darin%' GROUP BY people.id ORDER BY commits DESC LIMIT 20;
+
+SELECT people.name, MIN(scmlog.date) as start, MAX(scmlog.date) as end, COUNT(*) AS commits FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id ) WHERE name LIKE '%hyatt%' GROUP BY people.id ORDER BY commits DESC LIMIT 20;
+
+SELECT people.name, MIN(scmlog.date) as start, MAX(scmlog.date) as end, COUNT(*) AS commits FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id ) WHERE name LIKE '%mjs%' GROUP BY people.id ORDER BY commits DESC LIMIT 20;
+
+SELECT people.name, MIN(scmlog.date) as start, MAX(scmlog.date) as end, COUNT(*) AS commits FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id ) WHERE name LIKE '%hausmann%' GROUP BY people.id ORDER BY commits DESC LIMIT 20;
+
+SELECT people.name, MIN(scmlog.date) as start, MAX(scmlog.date) as end, COUNT(*) AS commits FROM people LEFT JOIN scmlog ON (people.id = scmlog.committer_id ) WHERE name LIKE '%andersca%' GROUP BY people.id ORDER BY commits DESC LIMIT 20;
+
+select substring_index(name,"@",1) as username, count(*) as count from people group by username having count > 1 order by count desc;
+
+select people.name, min(date), max(date), count(*) as count from people left join scmlog on (people.id = scmlog.committer_id) where substring_index(people.name,"@",1) in( select substring_index(name,"@",1) as username from people group by username having count(*) > 1) group by people.name order by people.name;

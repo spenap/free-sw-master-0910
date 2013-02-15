@@ -1,0 +1,211 @@
+% Definimos el estilo del documento
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+
+% Acentos y eñes
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\usepackage{hyperref}
+
+% Definimos titulo, autor, fecha.
+\title{Laboratorio III}
+\author{Sim\'on Pena Placer}
+\date{\today}
+
+%Empieza el documento
+\begin{document}
+
+% Generamos titulo e indice de contenidos
+\maketitle
+% \tableofcontents
+
+% Empezamos capitulos
+\section{Ejercicio 1}
+
+\textbf{¿Qué comandos serían necesarios ejecutar para que un sistema Linux pudiese sustituir el
+encaminador R2 mostrado en el diagrama? Asume todos aquellos datos que necesites para
+realizar el ejercicio (nombre de interfaces, gateway, etc)}
+
+Asumimos que el sistema Linux tiene dos interfaces: ``eth0'' y ``eth1'', conectadas, respectivamente, a la {Red 2} y a la {\it Red 3}. En su tabla de rutas deberán aparecer al menos tres entradas: una para cada una de las interfaces, y una tercera para el otro router visible, al que se enviará el tráfico que no corresponda a ninguna de las redes.
+
+{\footnotesize
+\begin{verbatim}
+R2:~#ifconfig eth0 10.10.0.2\
+>broadcast 10.10.0.255 netmask 255.255.255.0
+R2:~#ifconfig eth1 200.3.107.1\ 
+>broadcast 200.3.107.255 netmask 255.255.255.0
+\end{verbatim}
+}
+
+Al configurar las interfaces, la tabla de ruta se actualiza, automáticamente, indicando que estamos conectados a las subredes mediante esas interfaces. Se conseguiría el mismo efecto mediante estos comandos:
+
+{\footnotesize
+\begin{verbatim}
+R2:~#route add -net 10.10.0.0 netmask 255.255.255.0 dev eth0
+R2:~#route add -net 200.3.107.0 netmask 255.255.255.0 dev eth1
+\end{verbatim}
+}
+
+Finalmente, añadimos la puerta de enlace predeterminada
+
+{\footnotesize
+\begin{verbatim}
+R2:~#route add default gw 10.10.0.1
+\end{verbatim}
+}
+
+Sería necesario, posteriormente, añadir reglas de {\it iptables} y activar {\it NAT}.
+
+\section{Ejercicio 2}
+
+\textbf{Configura un alias de interface con una IP libre en el rango de red que esté siendo usado por
+tu interface inalámbrica y realiza las siguientes pruebas:
+\begin{itemize}
+    \item Verifica que se encuentra activa
+    \item Envía un ping a uno de tus compañeros y anota el resultado
+\end{itemize}
+}
+
+{\footnotesize
+\begin{verbatim}
+spenap@mannin:~$ sudo ifconfig eth2:1 192.168.1.112 \
+>broadcast 192.168.1.255 netmask 255.255.255.0
+[sudo] password for spenap: 
+spenap@mannin:~$ ifconfig 
+eth0      Link encap:Ethernet  direcciónHW 00:22:41:20:6e:bd  
+          ACTIVO DIFUSIÓN MULTICAST  MTU:1500  Métrica:1
+          Paquetes RX:0 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:0 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:1000 
+          Bytes RX:0 (0.0 B)  TX bytes:0 (0.0 B)
+          Interrupción:17 
+
+eth2      Link encap:Ethernet  direcciónHW 00:21:e9:da:3a:b9  
+          Direc. inet:192.168.1.111  Difus.:192.168.1.255  Másc:255.255.255.0
+          Dirección inet6: fe80::221:e9ff:feda:3ab9/64 Alcance:Enlace
+          ACTIVO DIFUSIÓN FUNCIONANDO MULTICAST  MTU:1500  Métrica:1
+          Paquetes RX:61584 errores:0 perdidos:0 overruns:0 frame:116059
+          Paquetes TX:46745 errores:6 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:1000 
+          Bytes RX:73896966 (73.8 MB)  TX bytes:6057106 (6.0 MB)
+          Interrupción:16 
+
+eth2:1    Link encap:Ethernet  direcciónHW 00:21:e9:da:3a:b9  
+          Direc. inet:192.168.1.112  Difus.:192.168.1.255  Másc:255.255.255.0
+          ACTIVO DIFUSIÓN FUNCIONANDO MULTICAST  MTU:1500  Métrica:1
+          Interrupción:16 
+
+lo        Link encap:Bucle local  
+          Direc. inet:127.0.0.1  Másc:255.0.0.0
+          Dirección inet6: ::1/128 Alcance:Anfitrión
+          ACTIVO LOOPBACK FUNCIONANDO  MTU:16436  Métrica:1
+          Paquetes RX:108 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:108 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:0 
+          Bytes RX:19345 (19.3 KB)  TX bytes:19345 (19.3 KB)
+spenap@mannin:~$ ping -I eth2:1 cymru
+PING cymru (192.168.1.141) from 192.168.1.111 eth2:1: 56(84) bytes of data.
+64 bytes from Cymru (192.168.1.141): icmp_seq=1 ttl=128 time=1.26 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=2 ttl=128 time=2.06 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=3 ttl=128 time=2.41 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=4 ttl=128 time=2.38 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=5 ttl=128 time=2.07 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=6 ttl=128 time=2.06 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=7 ttl=128 time=4.73 ms
+64 bytes from Cymru (192.168.1.141): icmp_seq=8 ttl=128 time=2.04 ms
+^C
+--- cymru ping statistics ---
+8 packets transmitted, 8 received, 0% packet loss, time 7009ms
+rtt min/avg/max/mdev = 1.262/2.381/4.733/0.948 ms
+\end{verbatim}
+}
+
+Como segunda prueba en este ejercicio, levanté una interfaz ``eth0:1'' en un Sheeva plug, con la siguiente configuración:
+
+{\footnotesize
+\begin{verbatim}
+root@sgarba:~# ifconfig eth0:1 10.10.0.2  broadcast 10.10.0.255 netmask 255.255.255.0
+root@sgarba:~# ifconfig eth0:1
+eth0:1    Link encap:Ethernet  HWaddr 00:50:43:01:d9:08  
+          inet addr:10.10.0.2  Bcast:10.10.0.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          Interrupt:11 
+root@sgarba:~# netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+10.10.0.0       0.0.0.0         255.255.255.0   U         0 0          0 eth0
+192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0
+0.0.0.0         192.168.1.1     0.0.0.0         UG        0 0          0 eth0
+\end{verbatim}
+}
+
+Y una interfaz ``br0:1'' en el router, con la siguiente.
+
+{\footnotesize
+\begin{verbatim}
+# ifconfig br0:1 10.10.0.3 netmask 255.255.255.0 broadcast 10.10.0.255
+# ifconfig br0:1
+br0:1      Link encap:Ethernet  HWaddr 00:23:69:5C:4C:18  
+           inet addr:10.10.0.3  Bcast:10.10.0.255  Mask:255.255.255.0
+           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+# netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+10.10.0.0       0.0.0.0         255.255.255.0   U        40 0          0 br0
+192.168.1.0     0.0.0.0         255.255.255.0   U        40 0          0 br0
+83.165.0.0      0.0.0.0         255.255.248.0   U        40 0          0 vlan1
+127.0.0.0       0.0.0.0         255.0.0.0       U        40 0          0 lo
+0.0.0.0         83.165.0.1      0.0.0.0         UG       40 0          0 vlan1
+\end{verbatim}
+}
+
+A continuación, hice un ping desde el router al sheeva:
+
+{\footnotesize
+\begin{verbatim}
+# ping 10.10.0.2
+PING 10.10.0.2 (10.10.0.2): 56 data bytes
+64 bytes from 10.10.0.2: seq=0 ttl=64 time=1.543 ms
+64 bytes from 10.10.0.2: seq=1 ttl=64 time=0.727 ms
+64 bytes from 10.10.0.2: seq=2 ttl=64 time=0.743 ms
+64 bytes from 10.10.0.2: seq=3 ttl=64 time=0.817 ms
+64 bytes from 10.10.0.2: seq=4 ttl=64 time=0.736 ms
+64 bytes from 10.10.0.2: seq=5 ttl=64 time=0.736 ms
+
+--- 10.10.0.2 ping statistics ---
+6 packets transmitted, 6 packets received, 0% packet loss
+round-trip min/avg/max = 0.727/0.883/1.543 ms
+
+\end{verbatim}
+}
+
+Consultando la tabla ARP, vemos como ahora hay dos entradas con la misma mac, una con la IP que tenía originalmente ``eth0'' en el Sheeva, y otra con la IP que le asignamos a ``eth0:1''
+
+{\footnotesize
+\begin{verbatim}
+# arp
+Mannin (192.168.1.111) at 00:21:E9:DA:3A:B9 [ether]  on br0
+? (10.10.0.2) at 00:50:43:01:D9:08 [ether]  on br0
+sgarba (192.168.1.139) at 00:50:43:01:D9:08 [ether]  on br0
+Cymru (192.168.1.141) at 00:1C:BF:37:11:92 [ether]  on br0
+\end{verbatim}
+}
+
+\section{Ejercicio 3}
+
+\textbf{Lista y describe brevemente el contenido del directorio {\it /etc/network}}
+
+{\footnotesize
+\begin{verbatim}
+spenap@mannin:~$ ls /etc/network
+if-down.d  if-post-down.d  if-pre-up.d  if-up.d  interfaces
+\end{verbatim}
+}
+
+El fichero {\it /etc/network/interfaces} permite definir la configuración de las interfaces.
+
+En el directorio se encuentran cuatro directorios y un archivo. La página de manual de interfaces indica que contienen scripts que se ejecutan cuando se 
+han completado los eventos que les dan nombre (al levantar y bajar una interfaz, antes de levantarla y tras bajarla). El fichero {\it network/interfaces}
+permite también fijar comportamientos en las interfaces ante esos eventos. 
+
+\end{document}
